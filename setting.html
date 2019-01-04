@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>告警设置</title>
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/themes/classic/global/css/bootstrap.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/themes/classic/base/css/site.css" id="admui-siteStyle" />
+ <!--[if lte IE 9]>
+ <meta http-equiv="refresh" content="0; url=''" />
+ <![endif]-->
+ <!--[if lt IE 10]>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/media-match/media.match.min.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/respond/respond.min.js"></script>
+ <![endif]-->
+ <!-- 图标 CSS-->
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/fonts/font-awesome/font-awesome.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/fonts/web-icons/web-icons.css" />
+ <!-- 插件 CSS -->
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/animsition/animsition.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/toastr/toastr.css" />
+ <!--表单验证 begin-->
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/formvalidation/formValidation.css" />
+ <!--表格 begin-->
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/datatables-bootstrap/dataTables.bootstrap.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/datatables-responsive/dataTables.responsive.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/highlight/default.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/highlight/github-gist.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/highlight/highlight.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/css/examples/tables/data-tables/examples.css" />
+ <!-- 基础  -->
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/jquery/jquery.min.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/bootstrap/bootstrap.min.js"></script>
+ <!-- 核心  -->
+ <script src="{{ STATIC_URL }}monitor_samve/themes/classic/global/js/core.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/themes/classic/base/js/site.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/themes/classic/global/js/configs/site-configs.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/themes/classic/global/js/components.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/toastr/toastr.min.js"></script>
+</head>
+<body style="margin:0; padding: 0;background:#f1f4f5;">
+<div class="page animation-fade page-forms">
+ <div class="page-content">
+  <!-- 欢迎信息 begin -->
+  <div class="page-header padding-10">
+   <h1 class="page-title"><b>告警设置</b></h1>
+  </div>
+  <!-- 欢迎信息 end -->
+  <!-- 表格 begin-->
+  <div class="panel">
+   <div class="panel-body">
+    <table class="table table-bordered table-hover dataTable table-striped width-full text-nowrap dtr-inline">
+     <form id="setting-form" class="form-inline" action="">
+      <tbody>
+      
+<!--      <tr> -->
+<!--        <td width="25%"></td> -->
+<!--        <td width="25%"></td> -->
+<!--        <td width="25%"> -->
+<!--         <div class="checkbox-custom checkbox-primary pull-left"> -->
+<!--          <input type="checkbox" id="chooseAllWindows" name="chooseAll" value="弹窗告警"/> -->
+<!--          <label for="chooseAllWindows">全选弹窗</label> -->
+<!--         </div></td> -->
+<!--        <td> -->
+<!--         <div class="checkbox-custom checkbox-primary pull-left"> -->
+<!--          <input type="checkbox" id="chooseAllAudio" name="chooseAll" value="播放告警音"/> -->
+<!--          <label for="chooseAllAudio">全选播放</label> -->
+<!--         </div> </td> -->
+<!--       </tr> -->
+      
+      <tr>
+       <td width="25%">节点离线时：</td>
+       <td width="25%"></td>
+       <td width="25%">
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="nodeOfflineWindow" name="nodeOfflineStatus" value="弹窗告警"/>
+         <label for="nodeOfflineWindow">弹窗告警</label>
+        </div></td>
+       <td>
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="nodeOfflineAudio" name="nodeOfflineStatus" value="播放告警音"/>
+         <label for="nodeOfflineAudio">播放告警音</label>
+        </div> </td>
+      </tr>
+      <tr>
+       <td>系统负载超过阀值时： </td>
+       <td> </td>
+       <td width="25%">
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="sysloadWindow" name="sysloadStatus"/>
+         <label for="sysloadWindow">弹窗告警</label>
+        </div></td>
+       <td>
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="sysloadAudio" name="sysloadStatus" />
+         <label for="sysloadAudio">播放告警音</label>
+        </div> </td>
+      </tr>
+      <tr>
+       <td>服务状态异常时：</td>
+       <td> </td>
+       <td width="25%">
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="serviceWindow" name="serviceStatus" />
+         <label for="serviceWindow">弹窗告警</label>
+        </div></td>
+       <td>
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="serviceAudio" name="serviceStatus" />
+         <label for="serviceAudio">播放告警音</label>
+        </div> </td>
+      </tr>
+       <tr style="display:none;">
+       <td>分区状态异常时：</td>
+       <td> </td>
+       <td width="25%">
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="partitionWindow" name="partitionStatus" />
+         <label for="partitionWindow">弹窗告警</label>
+        </div></td>
+       <td>
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="partitionAudio" name="partitionStatus" />
+         <label for="partitionAudio">播放告警音</label>
+        </div> </td>
+      </tr>
+      <tr>
+       <td>加密卡状态异常时：</td>
+       <td> </td>
+       <td width="25%">
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="encardWindow" name="encardStatus" />
+         <label for="encardWindow">弹窗告警</label>
+        </div></td>
+       <td>
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="encardAudio" name="encardStatus" />
+         <label for="encardAudio">播放告警音</label>
+        </div> </td>
+      </tr>
+      <tr>
+       <td>网口状态异常时：</td>
+       <td width="25%"></td>
+       <td width="25%">
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="netWindow" name="netStatus" />
+         <label for="netWindow">弹窗告警</label>
+        </div></td>
+       <td>
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="netAudio" name="netStatus" />
+         <label for="netAudio">播放告警音</label>
+        </div> </td>
+      </tr>
+      <tr>
+       <td>HBA卡状态异常时：</td>
+       <td> </td>
+       <td width="25%">
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="hbaWindow" name="hbaStatus" />
+         <label for="hbaWindow">弹窗告警</label>
+        </div></td>
+       <td>
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="hbaAudio" name="hbaStatus" />
+         <label for="hbaAudio">播放告警音</label>
+        </div> </td>
+      </tr>
+      <tr>
+       <td width="25%">CPU使用率超过：</td>
+       <td width="25%"> <select id="cpuRatio" class="form-control width-100" style="display:inline-block"> <option>50</option> <option>55</option> <option>60</option> <option>65</option> <option>70</option> <option>75</option> <option>80</option> <option>85</option> <option>90</option> <option>95</option> <option>100</option> </select><span class="padding-left-10"> % 时</span> </td>
+       <td width="25%">
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="cpuWindow" name="cpuStatus" value="弹窗告警"/>
+         <label for="cpuWindow">弹窗告警</label>
+        </div></td>
+       <td>
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="cpuAudio" name="cpuStatus" value="播放告警音"/>
+         <label for="cpuAudio">播放告警音</label>
+        </div> </td>
+      </tr>
+      <tr>
+       <td>内存使用率超过：</td>
+       <td width="25%"> <select id="memRatio" class="form-control width-100" style="display:inline-block"> <option>50</option> <option>55</option> <option>60</option> <option>65</option> <option>70</option> <option>75</option> <option>80</option> <option>85</option> <option>90</option> <option>95</option> <option>100</option> </select><span class="padding-left-10"> % 时</span> </td>
+       <td width="25%">
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="memWindow" name="memStatus" />
+         <label for="memWindow">弹窗告警</label>
+        </div></td>
+       <td>
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="memAudio" name="memStatus" />
+         <label for="memAudio">播放告警音</label>
+        </div> </td>
+      </tr>
+      <tr>
+       <td>分区使用率超过：</td>
+       <td width="25%"> <select id="partitionRatio" class="form-control width-100" style="display:inline-block"> <option>50</option> <option>55</option> <option>60</option> <option>65</option> <option>70</option> <option>75</option> <option>80</option> <option>85</option> <option>90</option> <option>95</option> <option>100</option> </select><span class="padding-left-10"> % 时</span> </td>
+       <td width="25%">
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="partitionRatioWindow" name="partitionRatioStatus" />
+         <label for="partitionRatioWindow">弹窗告警</label>
+        </div></td>
+       <td>
+        <div class="checkbox-custom checkbox-primary pull-left">
+         <input type="checkbox" id="partitionRatioAudio" name="partitionRatioStatus" />
+         <label for="partitionRatioAudio">播放告警音</label>
+        </div> </td>
+      </tr>
+<!--      <tr> -->
+<!--        <td>主页面刷新频率：</td> -->
+<!--        <td colspan="3">  -->
+<!--        	<input type="text" id="homeRefreshFrequency" class="form-control" style="width:100px;display:inline-block" /><span class="padding-left-10">秒</span> </td> -->
+<!--       </tr> -->
+      </tbody>
+     </form>
+    </table>
+    <div class="center-block margin-top-15" style="text-align:center">
+     <audio id="beep-one" src="{{ STATIC_URL }}monitor_samve/audio/beep.mp3" preload="auto">
+      Your browser isn't invited for super fun time.
+     </audio>
+     <!-- Indicates a successful or positive action -->
+     <button type="submit" id="setting-submit" class="btn btn-success btn-lg" onclick="document.getElementById('beep-one').play();">保 存</button>
+    </div>
+   </div>
+  </div>
+  <!-- 表格 end-->
+ </div>
+</div>
+<!--//table begin-->
+<script src="{{ STATIC_URL }}monitor_samve/vendor/datatables/jquery.dataTables.min.js" data-name="dataTables"></script>
+<script src="{{ STATIC_URL }}monitor_samve/vendor/datatables-bootstrap/dataTables.bootstrap.min.js" data-deps="dataTables"></script>
+<script src="{{ STATIC_URL }}monitor_samve/vendor/datatables-responsive/dataTables.responsive.min.js" data-deps="dataTables"></script>
+<script src="{{ STATIC_URL }}monitor_samve/vendor/highlight/highlight.pack.min.js"></script>
+<script src="{{ STATIC_URL }}monitor_samve/themes/classic/base/js/app.js" data-name="app"></script>
+<script src="{{ STATIC_URL }}monitor_samve/js/examples/tables/data-tables/common.js" data-deps="app"></script>
+
+<!-- 插件 -->
+<script src="{{ STATIC_URL }}monitor_samve/vendor/jquery-pjax/jquery.pjax.min.js"></script>
+<script src="{{ STATIC_URL }}monitor_samve/themes/classic/global/js/plugins/responsive-tabs.js"></script>
+<script src="{{ STATIC_URL }}monitor_samve/vendor/ashoverscroll/jquery-asHoverScroll.min.js"></script>
+<script src="{{ STATIC_URL }}monitor_samve/vendor/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="{{ STATIC_URL }}monitor_samve/vendor/screenfull/screenfull.min.js"></script>
+
+<!-- 功能 -->
+<script>
+function getStatus(data){
+	$("#cpuRatio").val(data.cpu);
+	$("#memRatio").val(data.mem);
+	$("#partitionRatio").val(data.partitionratio);
+	
+	if(data.nodeofflinetype == 3){
+		$("#nodeOfflineWindow").prop("checked",true);
+		$("#nodeOfflineAudio").prop("checked",true);
+	}else if(data.nodeofflinetype == 2){
+		$("#nodeOfflineAudio").prop("checked",true);
+	}else if(data.nodeofflinetype == 1){
+		$("#nodeOfflineWindow").prop("checked",true);
+	}
+	
+	if(data.cputype == 3){
+		$("#cpuWindow").prop("checked",true);
+		$("#cpuAudio").prop("checked",true);
+	}else if(data.cputype == 2){
+		$("#cpuAudio").prop("checked",true);
+	}else if(data.cputype == 1){
+		$("#cpuWindow").prop("checked",true);
+	}
+	
+	if(data.memtype == 3){
+		$("#memWindow").prop("checked",true);
+		$("#memAudio").prop("checked",true);
+	}else if(data.memtype == 2){
+		$("#memAudio").prop("checked",true);
+	}else if(data.memtype == 1){
+		$("#memWindow").prop("checked",true);
+	}
+	
+	if(data.netporttype == 3){
+		$("#netWindow").prop("checked",true);
+		$("#netAudio").prop("checked",true);
+	}else if(data.netporttype == 2){
+		$("#netAudio").prop("checked",true);
+	}else if(data.netporttype == 1){
+		$("#netWindow").prop("checked",true);
+	}
+	
+	if(data.cardtype == 3){
+		$("#encardWindow").prop("checked",true);
+		$("#encardAudio").prop("checked",true);
+	}else if(data.cardtype == 2){
+		$("#encardAudio").prop("checked",true);
+	}else if(data.cardtype == 1){
+		$("#encardWindow").prop("checked",true);
+	}
+	
+	if(data.servicetype == 3){
+		$("#serviceWindow").prop("checked",true);
+		$("#serviceAudio").prop("checked",true);
+	}else if(data.servicetype == 2){
+		$("#serviceAudio").prop("checked",true);
+	}else if(data.servicetype == 1){
+		$("#serviceWindow").prop("checked",true);
+	}
+	
+	if(data.hbatype == 3){
+		$("#hbaWindow").prop("checked",true);
+		$("#hbaAudio").prop("checked",true);
+	}else if(data.hbatype == 2){
+		$("#hbaAudio").prop("checked",true);
+	}else if(data.hbatype == 1){
+		$("#hbaWindow").prop("checked",true);
+	}
+	
+	if(data.partitiontype == 3){
+		$("#partitionWindow").prop("checked",true);
+		$("#partitionAudio").prop("checked",true);
+	}else if(data.partitiontype == 2){
+		$("#partitionAudio").prop("checked",true);
+	}else if(data.partitiontype == 1){
+		$("#partitionWindow").prop("checked",true);
+	}
+	
+	if(data.servicetype == 3){
+		$("#sysloadWindow").prop("checked",true);
+		$("#sysloadAudio").prop("checked",true);
+	}else if(data.servicetype == 2){
+		$("#sysloadAudio").prop("checked",true);
+	}else if(data.servicetype == 1){
+		$("#sysloadWindow").prop("checked",true);
+	}
+	
+	if(data.partitionratiotype == 3){
+		$("#partitionRatioWindow").prop("checked",true);
+		$("#partitionRatioAudio").prop("checked",true);
+	}else if(data.partitionratiotype == 2){
+		$("#partitionRatioAudio").prop("checked",true);
+	}else if(data.partitionratiotype == 1){
+		$("#partitionRatioWindow").prop("checked",true);
+	}
+	
+	//$("#homeRefreshFrequency").val(Number(data.interval));
+};
+
+function initStatus(){
+	//发送请求begin
+	$.ajax({
+		type: "POST",
+		url: "/monitor/setting/warningGet",
+		data: {},
+		dataType: 'json',
+		timeout: 1000 * 60,
+		success: function(obj){
+			if(obj['ret'] == 0){
+// 				console.log("=======初始化表单后台返回对象值=======");
+// 				console.log(obj);
+				var alermData = {
+						'nodeofflinetype': Number(obj.data.nodeoffline_warntype),
+						'cpu': Number(obj.data.cpu),
+						'cputype': Number(obj.data.cpu_warntype),
+						'mem': Number(obj.data.mem),
+						'memtype': Number(obj.data.mem_warntype),
+						'loadtype': Number(obj.data.load_warntype),
+						'servicetype': Number(obj.data.service_warntype),
+						'cardtype': Number(obj.data.card_warntype),
+						'hbatype': Number(obj.data.hba_warntype),
+						'netporttype': Number(obj.data.netport_warntype),
+						'partitiontype': Number(obj.data.partition_warntype),
+						'interval': Number(obj.data.interval),
+						'partitionratio': Number(obj.data.partitionratio),
+						'partitionratiotype': Number(obj.data.partitionratiotype)
+				};
+// 				console.log("========alermData========");
+// 				console.log(alermData);
+				getStatus(alermData);
+			}else{
+				toastr.error("返回数据为空，初始化失败!", "警告");
+// 				console.log("=======返回数据为空，初始化失败！=======");
+			}
+		},
+		error: function(msg){
+			toastr.error("系统错误，初始化失败!", "警告");
+// 			console.log("=======系统错误,初始化失败！=======");
+// 			console.log(msg);
+		}
+	});//发送请求end
+}
+    
+$(document).ready(function(){
+	//初始化状态
+	initStatus();
+	
+	$("#setting-submit").click(function(){
+		var nodeOfflineStatus;
+		var cpuRatio;
+		var cpuStatus;
+		var memRatio;
+		var memStatus;
+		var sysloadStatus;
+		var serviceStatus;
+		var encardStatus;
+		var hbaStatus;
+		var netStatus;
+		var partitionStatus;
+		var homeRefreshFrequency;
+		var partitionRatio;
+		var partitionRatioStatus;
+		
+		if($("#nodeOfflineWindow").is(':checked') && $("#nodeOfflineAudio").is(':checked')){
+			nodeOfflineStatus = 3;
+		}else if($("#nodeOfflineWindow").is(':checked')){
+			nodeOfflineStatus = 1;
+		}else if($("#nodeOfflineAudio").is(':checked')){
+			nodeOfflineStatus = 2;
+		}else{
+			nodeOfflineStatus = 0;
+// 			toastr.error("请选择节点离线时的报警方式！", "警告");
+// 			return;
+		}
+// 		console.log("========选择节点离线时的报警方式的状态值========");
+// 		console.log(nodeOfflineStatus);
+		
+		if($("#cpuWindow").is(':checked') && $("#cpuAudio").is(':checked')){
+			cpuStatus = 3;
+		}else if($("#cpuWindow").is(':checked')){
+			cpuStatus = 1;
+		}else if($("#cpuAudio").is(':checked')){
+			cpuStatus = 2;
+		}else{
+			cpuStatus = 0;
+// 			toastr.error("请选择CPU利用率超过警戒值时的报警方式！", "警告");
+// 			return;
+		}
+// 		console.log("========选择CPU利用率超过警戒值时的报警方式的状态值========");
+// 		console.log(cpuStatus);
+		
+		if($("#memWindow").is(':checked') && $("#memAudio").is(':checked')){
+			memStatus = 3;
+		}else if($("#memWindow").is(':checked')){
+			memStatus = 1;
+		}else if($("#memAudio").is(':checked')){
+			memStatus = 2;
+		}else{
+			memStatus = 0;
+// 			toastr.error("请选择内存利用率超过警戒值时的报警方式！", "警告");
+// 			return;
+		}
+// 		console.log("========选择内存利用率超过警戒值时的报警方式的状态值========");
+// 		console.log(memStatus);
+		
+		if($("#netWindow").is(':checked') && $("#netAudio").is(':checked')){
+			netStatus = 3;
+		}else if($("#netWindow").is(':checked')){
+			netStatus = 1;
+		}else if($("#netAudio").is(':checked')){
+			netStatus = 2;
+		}else{
+			netStatus = 0;
+// 			toastr.error("请选择网口状态异常时的报警方式！", "警告");
+// 			return;
+		}
+// 		console.log("========选择网口状态异常时的报警方式的状态值========");
+// 		console.log(netStatus);
+		
+		if($("#encardWindow").is(':checked') && $("#encardAudio").is(':checked')){
+			encardStatus = 3;
+		}else if($("#encardWindow").is(':checked')){
+			encardStatus = 1;
+		}else if($("#encardAudio").is(':checked')){
+			encardStatus = 2;
+		}else{
+			encardStatus = 0;
+// 			toastr.error("请选择加密卡异常时的报警方式！", "警告");
+// 			return;
+		}
+// 		console.log("========选择加密卡异常时的报警方式的状态值========");
+// 		console.log(encardStatus);
+		
+		if($("#serviceWindow").is(':checked') && $("#serviceAudio").is(':checked')){
+			serviceStatus = 3;
+		}else if($("#serviceWindow").is(':checked')){
+			serviceStatus = 1;
+		}else if($("#serviceAudio").is(':checked')){
+			serviceStatus = 2;
+		}else{
+			serviceStatus = 0;
+// 			toastr.error("请选择服务状态异常时的报警方式！", "警告");
+// 			return;
+		}
+// 		console.log("========选择服务状态异常时的报警方式的状态值========");
+// 		console.log(serviceStatus);
+		
+		if($("#hbaWindow").is(':checked') && $("#hbaAudio").is(':checked')){
+			hbaStatus = 3;
+		}else if($("#hbaWindow").is(':checked')){
+			hbaStatus = 1;
+		}else if($("#hbaAudio").is(':checked')){
+			hbaStatus = 2;
+		}else{
+			hbaStatus = 0;
+// 			toastr.error("请选择HBA卡异常时的报警方式！", "警告");
+// 			return;
+		}
+// 		console.log("========选择HBA卡异常时的报警方式的状态值========");
+// 		console.log(hbaStatus);
+		
+		if($("#partitionWindow").is(':checked') && $("#partitionAudio").is(':checked')){
+			partitionStatus = 3;
+		}else if($("#partitionWindow").is(':checked')){
+			partitionStatus = 1;
+		}else if($("#partitionAudio").is(':checked')){
+			partitionStatus = 2;
+		}else{
+			partitionStatus = 0;
+// 			toastr.error("请选择分区状态异常时的报警方式！", "警告");
+// 			return;
+		}
+// 		console.log("========选择分区状态异常时的报警方式的状态值========");
+// 		console.log(partitionStatus);
+		
+		if($("#sysloadWindow").is(':checked') && $("#sysloadAudio").is(':checked')){
+			sysloadStatus = 3;
+		}else if($("#sysloadWindow").is(':checked')){
+			sysloadStatus = 1;
+		}else if($("#sysloadAudio").is(':checked')){
+			sysloadStatus = 2;
+		}else{
+			sysloadStatus = 0;
+// 			toastr.error("请选择系统负载异常时的报警方式！", "警告");
+// 			return;
+		}
+// 		console.log("========选择系统负载异常时的报警方式的状态值========");
+// 		console.log(sysloadStatus);
+		
+		if($("#partitionRatioWindow").is(':checked') && $("#partitionRatioAudio").is(':checked')){
+			partitionRatioStatus = 3;
+		}else if($("#partitionRatioWindow").is(':checked')){
+			partitionRatioStatus = 1;
+		}else if($("#partitionRatioAudio").is(':checked')){
+			partitionRatioStatus = 2;
+		}else{
+			partitionRatioStatus = 0;
+// 			toastr.error("请选择系统负载异常时的报警方式！", "警告");
+// 			return;
+		}
+// 		console.log("========选择分区使用率超过阈值时的报警方式的状态值========");
+// 		console.log(partitionRatioStatus);
+		
+// 		console.log($("#homeRefreshFrequency").val());
+// 		if(!/^[1-9][0-9]*$/.test($("#homeRefreshFrequency").val())){
+// 			toastr.error("请输入为正整数的主页面刷新频率！", "警告");
+// 			$("#homeRefreshFrequency").focus();
+// 			return;
+// 		}
+// 		homeRefreshFrequency = Number($("#homeRefreshFrequency").val());
+		
+		cpuRatio = Number($("#cpuRatio").val());
+		memRatio = Number($("#memRatio").val());
+		partitionRatio = Number($("#partitionRatio").val());
+		
+		var param = {
+				'nodeofflinetype': nodeOfflineStatus,
+				'cpu': cpuRatio,
+				'cputype': cpuStatus,
+				'mem': memRatio,
+				'memtype': memStatus,
+				'loadtype': sysloadStatus,
+				'servicetype': serviceStatus,
+				'cardtype': encardStatus,
+				'hbatype': hbaStatus,
+				'netporttype': netStatus,
+				'partitiontype': partitionStatus,
+				'interval': 600, //homeRefreshFrequency
+				'partitionratio': partitionRatio,
+				'partitionratiotype': partitionRatioStatus
+		}
+// 		console.log(param);
+		
+		//发送请求begin
+		$.ajax({
+			type: "POST",
+			url: "/monitor/setting/warningSet",
+			data: param,
+			dataType: 'json',
+			timeout: 1000 * 10,
+			success: function(obj){
+// 				console.log(obj);
+				if(true == obj.ret){
+					toastr.success("保存成功！", "通知");
+				}else{
+					toastr.error("保存失败！", "警告");
+// 					console.log("=======保存出错，错误代码：=======");
+				}
+			},
+			error: function(msg){
+				toastr.error("系统错误，保存失败！", "警告");
+// 				console.log("=======系统错误,保存失败,错误代码：=======");
+// 				console.log(msg);
+			}
+		});//发送请求end
+	});	
+	
+// 	$("#chooseAllWindows").click(function(){
+// 		if($(this).is(':checked')){
+// 			$("#nodeOfflineWindow, #sysloadWindow, #serviceWindow, #partitionWindow, #encardWindow, #netWindow, #hbaWindow, #cpuWindow, #memWindow").prop("checked",true);
+// 		}else{
+// 			$("#nodeOfflineWindow, #sysloadWindow, #serviceWindow, #partitionWindow, #encardWindow, #netWindow, #hbaWindow, #cpuWindow, #memWindow").prop("checked",false);
+// 		}
+// 	});
+	
+// 	$("#chooseAllAudio").click(function(){
+// 		if($(this).is(':checked')){
+// 			$("#nodeOfflineAudio, #sysloadAudio, #serviceAudio, #partitionAudio, #encardAudio, #netAudio, #hbaAudio, #cpuAudio, #memAudio").prop("checked",true);
+// 		}else{
+// 			$("#nodeOfflineAudio, #sysloadAudio, #serviceAudio, #partitionAudio, #encardAudio, #netAudio, #hbaAudio, #cpuAudio, #memAudio").prop("checked",false);
+// 		}
+// 	})
+})
+</script>
+</body>
+</html>

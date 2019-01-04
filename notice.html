@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .msgBox {
+            border:1px solid #428bca;
+            width: 300px;
+            height: 200px;
+            position: fixed;
+            right: 10px;
+            bottom: 0px;
+            border-radius: 3px;
+            background: #ffffff;
+        }
+        .msgTitle{
+            height:42px;
+            line-height:42px;
+            color: #FFFFFF;
+            font-size:14px;
+            padding-left:10px;
+            background: #428bca;
+        }
+        .msgMain{
+        	padding:15px;
+        }
+    </style>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+<div class="msgBox">
+    <div class="msgTitle">消息提醒<span style="float:right;"><i class="icon wb-close" aria-hidden="true"></i></span></div>
+    <div class="msgMain">
+    	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan. Aliquam ornare lacus adipiscing, posuere lectus et, fringilla augue.</p>
+    </div>
+</div>
+<button id="showMsg">弹出</button>
+<script>
+    $(function () {
+        $(".msgBox").hide();
+        msgShow();
+    });
+    
+    function msgShow(){
+    	$(".msgBox").slideDown(1000);
+    }
+
+    function close() {
+        $(".msgBox").slideUp(); 
+    }
+</script>
+</body>
+</html>

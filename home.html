@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>麒麟天机-网络存储加密系统</title>
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/themes/classic/global/css/bootstrap.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/themes/classic/base/css/site.css" id="admui-siteStyle" />
+ <!--[if lte IE 9]>
+<!--  <meta http-equiv="refresh" content="0; url=''" /> -->
+ <![endif]-->
+ <!--[if lt IE 10]>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/media-match/media.match.min.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/respond/respond.min.js"></script>
+ <![endif]-->
+ <!-- 图标 CSS-->
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/fonts/font-awesome/font-awesome.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/fonts/web-icons/web-icons.css" />
+ <!-- 插件 CSS -->
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/animsition/animsition.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/toastr/toastr.css" />
+ <!--表格 begin-->
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/datatables-bootstrap/dataTables.bootstrap.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/datatables-responsive/dataTables.responsive.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/highlight/default.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/highlight/github-gist.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/highlight/highlight.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/css/examples/tables/data-tables/examples.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/webui-popover/jquery.webui-popover.min.css">
+ <style>
+ .dropdown-menu li{
+ 	height:32px;line-height: 32px;border-bottom: 1px solid #ddd;
+ }
+ </style>
+ <!-- 基础  -->
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/jquery/jquery.min.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/bootstrap/bootstrap.min.js"></script>
+ <!-- 核心  -->
+ <script src="{{ STATIC_URL }}monitor_samve/themes/classic/global/js/core.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/themes/classic/base/js/site.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/themes/classic/global/js/configs/site-configs.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/themes/classic/global/js/components.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/toastr/toastr.min.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/webui-popover/jquery.webui-popover.min.js"></script>
+</head>
+
+<body style="margin:0; padding: 0;background:#f1f4f5;">
+<div class="page animation-fade page-forms">
+ <div class="page-content">
+ 
+  <!-- 欢迎信息 begin -->
+  <div class="page-header padding-10">
+   <h1 class="page-title"><b>节点信息</b></h1>
+   <div class="page-header-actions">
+    <ol class="breadcrumb">
+     <li class="active" id="serviceTime"></li> 
+    </ol>
+   </div>
+  </div>
+  <!-- 欢迎信息 end -->
+
+  <!-- 表格 begin-->
+  <div class="panel">
+   <div class="panel-body">
+    <table class="table table-bordered table-hover dataTable table-striped width-full text-nowrap dtr-inline" id="nodeInfos" role="grid" aria-describedby="dataTableExample_info" style="width: 100%;">
+     <thead>
+     <tr role="row">
+      <th tabindex="0" aria-controls="dataTableExample" rowspan="1" colspan="1" style="width: 9%;" aria-sort="ascending" aria-label="名称降序排列">名称</th>
+      <th tabindex="0" aria-controls="dataTableExample" rowspan="1" colspan="1" style="width: 11%;" aria-label="IP升序排列">IP</th>
+      <th class="" tabindex="0" aria-controls="dataTableExample" rowspan="1" colspan="1" style="width: 9%;" aria-label="主设备升序排列">主节点/从节点</th>
+      <th tabindex="0" aria-controls="dataTableExample" rowspan="1" colspan="1" style="width: 9%;" aria-label="CPU使用率升序排列">CPU使用率</th>
+      <th tabindex="0" aria-controls="dataTableExample" rowspan="1" colspan="1" style="width: 9%;" aria-label="内存使用率升序排列">内存使用率</th>
+      <th class="" tabindex="0" aria-controls="dataTableExample" rowspan="1" colspan="1" style="width: 9%;" aria-sort="ascending" aria-label="服务状态降序排列">服务状态</th>
+      <th class="" tabindex="0" aria-controls="dataTableExample" rowspan="1" colspan="1" style="width: 9%;" aria-label="分区状态升序排列">分区状态</th>
+      <th class="" tabindex="0" aria-controls="dataTableExample" rowspan="1" colspan="1" style="width: 9%;" aria-label="加密卡状态升序排列">加密卡状态</th>
+      <th class="" tabindex="0" aria-controls="dataTableExample" rowspan="1" colspan="1" style="width: 9%;" aria-label="负载升序排列">系统负载</th>
+      <th class="" tabindex="0" aria-controls="dataTableExample" rowspan="1" colspan="1" style="width: 9%;" aria-label="HBA卡升序排列">HBA卡状态</th>
+      <th class="" tabindex="0" aria-controls="dataTableExample" rowspan="1" colspan="1" style="width: 9%;" aria-label="网口状态">网口状态</th>
+     </tr>
+     </thead>
+     <tbody id="nodeList">
+     </tbody>
+    </table>
+   </div>
+  </div>
+  <!-- 表格 end-->
+ 
+  <!-- 第一行charts begin-->
+ <ul class="blocks-xs-100 blocks-md-3 blocks-xlg-3">
+             <li>
+                <div class="panel panel-bordered animation-scale-up" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span id="cpuRate"></span>-CPU使用率（%）</h3>
+                        <div class="panel-actions">
+                            <a class="panel-action icon wb-minus" aria-expanded="true" data-toggle="panel-collapse" aria-hidden="true"></a>
+                           <!--   <a class="panel-action icon wb-expand" data-toggle="panel-fullscreen" aria-hidden="true"></a>
+                            <a class="panel-action icon wb-close" data-toggle="panel-close" aria-hidden="true"></a> -->
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                            <div id="chart1" style="height:300px;"></div>
+                    </div>
+                </div>
+            </li>
+            
+            <li>
+                <div class="panel panel-bordered animation-scale-up" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span id="memRate"></span>-内存使用率（%）</h3>
+                        <div class="panel-actions">
+                            <a class="panel-action icon wb-minus" aria-expanded="true" data-toggle="panel-collapse" aria-hidden="true"></a>
+                           <!-- <a class="panel-action icon wb-expand" data-toggle="panel-fullscreen" aria-hidden="true"></a>
+                            <a class="panel-action icon wb-close" data-toggle="panel-close" aria-hidden="true"></a> -->
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                            <div id="chart2" style="height:300px;"></div>
+                    </div>
+                </div>
+            </li>
+            
+            <li>
+                <div class="panel panel-bordered animation-scale-up" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 50ms;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span id="netRate"></span>-网络使用率(%)</h3>
+                        <div class="panel-actions">
+                            <a class="panel-action icon wb-minus" aria-expanded="true" data-toggle="panel-collapse" aria-hidden="true"></a>
+                         <!--   <a class="panel-action icon wb-expand" data-toggle="panel-fullscreen" aria-hidden="true"></a>
+                            <a class="panel-action icon wb-close" data-toggle="panel-close" aria-hidden="true"></a> -->
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                             <div id="chart3" style="height:300px;"></div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+ <!-- 第一行charts end-->
+
+ <!-- 第二行charts begin-->
+ <ul class="blocks-xs-100 blocks-md-2 blocks-xlg-2">
+            <li>
+                <div class="panel panel-bordered animation-scale-up" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 0ms;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span id="sysLoad"></span>-系统负载</h3>
+                        <div class="panel-actions">
+                            <a class="panel-action icon wb-minus" aria-expanded="true" data-toggle="panel-collapse" aria-hidden="true"></a>
+                         <!--   <a class="panel-action icon wb-expand" data-toggle="panel-fullscreen" aria-hidden="true"></a>
+                            <a class="panel-action icon wb-close" data-toggle="panel-close" aria-hidden="true"></a> -->
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                            <div id="chart4" style="height:300px;"></div>
+                    </div>
+                </div>
+            </li>
+            
+            <li>
+                <div class="panel panel-bordered animation-scale-up" style="animation-fill-mode: backwards; animation-duration: 250ms; animation-delay: 50ms;">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span id="ioThroughput"></span>-IO吞吐量（MB/s）</h3>
+                        <div class="panel-actions">
+                            <a class="panel-action icon wb-minus" aria-expanded="true" data-toggle="panel-collapse" aria-hidden="true"></a>
+                         <!--   <a class="panel-action icon wb-expand" data-toggle="panel-fullscreen" aria-hidden="true"></a>
+                            <a class="panel-action icon wb-close" data-toggle="panel-close" aria-hidden="true"></a> -->
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                             <div id="chart5" style="height:300px;"></div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <!-- 第二行charts end-->
+
+</div>
+</div>
+ 
+ 
+  <!--//model(分区状态详情) begin--> 
+  <div class="modal fade modal-rotate-from-bottom in" id="partition_status" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1" style="display: none;">
+   <div class="modal-dialog modal-top"> 
+    <div class="modal-content"> 
+     <div class="modal-header"> 
+      <button type="button" class="close" data-dismiss="modal" aria-label="关闭"> <span aria-hidden="true">&times;</span></button> 
+      <h4 class="modal-title">分区状态</h4>
+     </div> 
+     <form id="index-modify-password-form" class="form-horizontal" method="post" action="SYS/Password"> 
+      <div class="modal-body padding-left-0 padding-bottom-0" id="partition_status_content"> 
+      
+		<!-- 动态生成内容区 -->
+
+      </div>
+     </form> 
+    </div> 
+   </div> 
+  </div> 
+  <!--//model(分区状态详情) end-->
+
+<!--//table begin-->
+<script src="{{ STATIC_URL }}monitor_samve/vendor/datatables/jquery.dataTables.min.js" data-name="dataTables"></script>
+<script src="{{ STATIC_URL }}monitor_samve/vendor/datatables-bootstrap/dataTables.bootstrap.min.js" data-deps="dataTables"></script>
+<script src="{{ STATIC_URL }}monitor_samve/vendor/datatables-responsive/dataTables.responsive.min.js" data-deps="dataTables"></script>
+<script src="{{ STATIC_URL }}monitor_samve/vendor/highlight/highlight.pack.min.js"></script>
+<script src="{{ STATIC_URL }}monitor_samve/themes/classic/base/js/app.js" data-name="app"></script>
+<script src="{{ STATIC_URL }}monitor_samve/js/examples/tables/data-tables/common.js" data-deps="app"></script>
+<!--//table end-->
+<!-- echarts begin -->
+<script src="{{ STATIC_URL }}monitor_samve/vendor/echarts/echarts.js"></script>
+<!-- 插件 -->
+<script src="{{ STATIC_URL }}monitor_samve/vendor/jquery-pjax/jquery.pjax.min.js"></script>
+<script src="{{ STATIC_URL }}monitor_samve/themes/classic/global/js/plugins/responsive-tabs.js"></script>
+<script src="{{ STATIC_URL }}monitor_samve/vendor/ashoverscroll/jquery-asHoverScroll.min.js"></script>
+<script src="{{ STATIC_URL }}monitor_samve/vendor/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="{{ STATIC_URL }}monitor_samve/vendor/screenfull/screenfull.min.js"></script>
+<!-- 功能 -->
+
+<script>
+//定义一个定时器数组
+var arr = [];
+
+/**
+ * 功能：动态显示获取到的系统时间
+ */
+(function(){
+	var serviceTime = document.getElementById("serviceTime");
+// 	console.log("========【获取系统时间和时长】模块开始========");
+	$.ajax({
+		type: "POST",
+		url: "/monitor/monitoring/nodes_info/",
+		data: {},
+		dataType: 'json',
+		timeout: 1000 * 60,
+		success: function(obj){
+			if(obj){
+				//解析当前时间
+				var systime = obj.sysinfo.systime;//获取当前时间："2018年04月28日 16:01:09"
+				systime = systime.replace('年', "/").replace('月', "/").replace('日', '');
+				systime = new Date(systime).getTime();
+// 				console.log("当前时间时间戳：");
+// 				console.log(systime);
+				//解析时长
+				var runtime = obj.sysinfo.runtime;//获取当前时长："13天7小时58分17秒"
+				var indexOfDay = runtime.indexOf("天");
+				var indexOfHour1 = runtime.indexOf("小");
+				var indexOfHour2 = runtime.indexOf("时");
+				var indexOfMinutes = runtime.indexOf("分");
+				var indexOfSecond = runtime.indexOf("秒");
+				var runtimeDay = runtime.substring(0, indexOfDay); 
+				var runtimeHour = runtime.substring(indexOfDay+1, indexOfHour1); 
+				var runtimeMinutes = runtime.substring(indexOfHour2+1, indexOfMinutes); 
+				var runtimeSecond = runtime.substring(indexOfMinutes+1, indexOfSecond); 
+				runtime = runtimeDay*24*60*60*1000 + runtimeHour*60*60*1000 + runtimeMinutes*60*1000 + runtimeSecond*1000;
+// 				console.log("当前时长毫秒数：");
+// 				console.log(runtime);
+				
+				setInterval(function(){
+					var time = new Date(systime);
+				    var year = time.getFullYear();
+				    var month = time.getMonth() + 1;
+				    var date = time.getDate();
+				    if (date >= 0 && date <= 9) {
+				    	date = "0" + date;
+				    }
+				    var hour = time.getHours();
+				    if (hour >= 0 && hour <= 9) {
+				    	hour = "0" + hour;
+				    }
+				    var minutes = time.getMinutes();
+				    if (minutes >= 0 && minutes <= 9) {
+				    	minutes = "0" + minutes;
+				    }
+				    var seconds= time.getSeconds();
+				    if (seconds >= 0 && seconds <= 9) {
+				    	seconds = "0" + seconds;
+				    }
+				    
+	 			    var day = Math.floor(runtime/(24*60*60*1000));    
+	 			    var h = Math.floor((runtime%(24*60*60*1000))/(60*60*1000));    
+	 			    var m = Math.floor(((runtime%(24*60*60*1000))%(60*60*1000))/(60*1000));
+	 			    var s = Math.floor((((runtime%(24*60*60*1000))%(60*60*1000))%(60*1000))/1000);
+
+				    serviceTime.innerHTML = "运行时长：" + day + "天" + h + "时" + m + "分" + s + "秒 "+ " 系统时间：" + year + "年" + month + "月" + date + "日 " + hour + ":" + minutes + ":" + seconds;
+				    systime += 1000;
+				    runtime += 1000;
+				}, 1000);
+			}else{
+				toastr.error("获取系统时间和时长时返回数据为空！", "警告");
+// 				console.log("获取系统时间和时长时返回数据为空！");
+			}
+			
+		},
+		error: function(msg){
+			toastr.error("获取系统时间和时长时系统错误！", "警告");
+// 			console.log("获取系统时间和时长时系统错误！");
+// 			console.log(msg);
+		}
+	});
+})();
+
+/**
+ * 功能：获取分区状态
+ */
+function getPartitionStatus(ip){
+	$("#partition_status_content").html('<p style="height:24px;line-height:24px;" class="text-center">加载中...</p>');
+// 	console.log("========【查看分区状态】模块开始========");
+	$.ajax({
+		type: "POST",
+		url: "/monitor/monitoring/nodes_info/",
+		data: {},
+		dataType: 'json',
+		cache: true,
+		timeout: 1000 * 60,
+		success: function(obj){
+				if (obj){
+					var partitionRatio_warnSet = Number(obj.warnSet.partitionratio);//告警设置的节点分区使用率阀值
+					//===========================================================================查找节点数据 begin
+					var innerHTML = "";
+					var thisHost = window.location.host;//当前域名
+					var dataType = "json";
+					var url = "";
+					if(ip == thisHost){
+						dataType = "json";
+						url = "http://" + ip + "/monitor/monitoring/getMonitorData/";
+					}else{
+						dataType = "jsonp";
+						url = "http://" + ip + "/monitor/monitoring/getMonitorDataJsonp/";
+					}
+					$.ajax({
+						type: "POST",
+						url: url,
+						dataType: dataType,
+						timeout: 1000 * 60,
+						success: function(data){
+								if (data){
+									//分区数据
+									for(var i = 0; i<data.LatestPartitionData.length; i++){
+										var partitionName = data.LatestPartitionData[i][2];
+// 										console.log("分区名：");
+// 										console.log(partitionName);
+										var partitionRatio = Number(data.LatestPartitionData[i][3]);
+// 										console.log("使用率：");
+// 										console.log(partitionRatio + "%");
+										
+										//分区大小
+										var partitionDataValue = Number(data.LatestPartitionData[i][5]);
+// 										console.log("分区大小：");
+										
+										if(partitionDataValue >= 1024 && partitionDataValue < (1024*1024)){
+											partitionDataValue = (partitionDataValue/1024).toFixed(2) + "M";
+										}else if(partitionDataValue >= (1024*1024) && partitionDataValue < (1024*1024*1024)){
+											partitionDataValue = (partitionDataValue/(1024*1024)).toFixed(2) + "G";
+										}else if(partitionDataValue >= (1024*1024*1024)){
+											partitionDataValue = (partitionDataValue/(1024*1024*1024)).toFixed(2) + "T";
+										}else{
+											partitionDataValue+="K";
+										}
+										
+// 										console.log(partitionDataValue);
+										
+										if(partitionRatio >= 0 && partitionRatio <partitionRatio_warnSet){
+											innerHTML += '<div class="form-group"><label class="col-sm-3 control-label padding-left-0 padding-right-0">'+partitionName+'：</label><div class="col-sm-4 padding-left-0 padding-right-0"><div class="progress margin-top-10"><div class="progress-bar progress-bar-striped progress-bar-success active" aria-valuenow="'+partitionRatio+'" aria-valuemin="0" aria-valuemax="100" style="width: '+partitionRatio+'%" role="progressbar"> <span class="sr-only">'+partitionRatio+'%</span></div></div></div><div class="col-sm-1 padding-top-5">'+partitionRatio+'%</div><div class="col-sm-2 padding-top-5 padding-right-0">总容量：</div><div class="col-sm-2 padding-top-5 padding-left-0 padding-right-0"><span class="badge badge-radius badge-dark">' + partitionDataValue + '</span></div></div>';
+										}else if(partitionRatio >= partitionRatio_warnSet && partitionRatio < 100){
+											innerHTML += '<div class="form-group"><label class="col-sm-3 control-label padding-left-0 padding-right-0">'+partitionName+'：</label><div class="col-sm-4 padding-left-0 padding-right-0"><div class="progress margin-top-10"><div class="progress-bar progress-bar-striped progress-bar-warning active" aria-valuenow="'+partitionRatio+'" aria-valuemin="0" aria-valuemax="100" style="width: '+partitionRatio+'%" role="progressbar"> <span class="sr-only">'+partitionRatio+'%</span></div></div></div><div class="col-sm-1 padding-top-5">'+partitionRatio+'%</div><div class="col-sm-2 padding-top-5 padding-right-0">总容量：</div><div class="col-sm-2 padding-top-5 padding-left-0 padding-right-0"><span class="badge badge-radius badge-dark">' + partitionDataValue + '</span></div></div>';
+										}else if(partitionRatio == 100){
+											innerHTML += '<div class="form-group"><label class="col-sm-3 control-label padding-left-0 padding-right-0">'+partitionName+'：</label><div class="col-sm-4 padding-left-0 padding-right-0"><div class="progress margin-top-10"><div class="progress-bar progress-bar-striped progress-bar-danger active" aria-valuenow="'+partitionRatio+'" aria-valuemin="0" aria-valuemax="100" style="width: '+partitionRatio+'%" role="progressbar"> <span class="sr-only">'+partitionRatio+'%</span></div></div></div><div class="col-sm-1 padding-top-5">'+partitionRatio+'%</div><div class="col-sm-2 padding-top-5 padding-right-0">总容量：</div><div class="col-sm-2 padding-top-5 padding-left-0 padding-right-0"><span class="badge badge-radius badge-dark">' + partitionDataValue + '</span></div></div>';
+										}
+									}	
+								}else{
+									toastr.error("查看分区状态时获取到的分区数为空！", "警告");
+// 									console.log("查看分区状态时获取到的分区数为空！");
+								}
+								
+								$("#partition_status_content").html(innerHTML);
+						},
+						error: function(msg){
+							toastr.error("系统错误，查看分区状态时获取不到分区数据！", "警告");
+// 							console.log("系统错误，查看分区状态时获取不到分区数据!");
+// 							console.log(msg);
+						}
+					});
+					//===========================================================================查找节点数据 end
+				}else{
+					toastr.error("查看分区状态时，返回的告警设置数据为空！", "警告");
+				}
+		},
+		error: function(msg){
+					//在线但获取不到数据begin
+					toastr.error("系统错误，查看分区状态时获取不到告警设置数据！", "警告");
+// 					console.log("系统错误，查看分区状态时获取不到告警设置数据！");
+// 					console.log(msg);
+		}
+	});
+}
+
+/**
+ * 设置初始化节点：如果主节点在线，则主节点为初始化节点，否则为 表格中第一个在线节点
+ */
+(function setInitNode(){
+	setTimeout(function(){	
+		var result = true;
+		if($("#nodeList .nodeName:has(a)").length > 0){
+ 			$("#nodeList .nodeName:has(a)").each(function(){
+ 				if($.trim($(this).next().next().text()) == "主"){
+ 					var name = $(this).text();
+ 					var ip = $.trim($(this).next().text());
+ 					$("#cpuRate,#memRate,#netRate,#sysLoad,#ioThroughput").text(name);
+ 					getCharts(ip);
+ 					arr[0] = setInterval(function(){
+ 						getCharts(ip);
+ 					}, 1000*20);
+ 					result = false;
+ 					return;
+ 				}
+ 			})
+ 			
+ 			if(result){
+ 				var name = $($("#nodeList .nodeName:has(a)")[0]).text();
+ 				var ip = $.trim($($("#nodeList .nodeName:has(a)")[0]).next().text());
+ 				$("#cpuRate,#memRate,#netRate,#sysLoad,#ioThroughput").text(name);
+				getCharts(ip);
+				arr[0] = setInterval(function(){
+						getCharts(ip);
+					}, 1000*20);
+ 			}
+ 			return;
+		}
+ 		setInitNode();
+	}, 1000*1)
+})();
+
+/**
+ * 功能：显示全部节点数据
+ * 修改日期： 2018-05-23
+ */
+getAllNodes();
+
+setInterval(function(){
+ getAllNodes();
+}, 1000*20);
+
+function getAllNodes(){
+// 	console.log("========【显示全部节点数据】模块开始========");
+	var nodesHtml = "";
+	$.ajax({
+		type: "POST",
+		url: "/monitor/monitoring/getTableData/",
+		data: {},
+		dataType: 'json',
+		cache: true,
+		timeout: 1000 * 60,
+		success: function(obj){
+			if(obj){
+				var len = obj.nodes_list.length;
+// 				console.log("集群中节点个数：");
+// 				console.log(len);
+				
+				if(len == 0){
+					toastr.error("获取到的节点数为0！", "警告");
+				}
+				
+				//oem
+				var oem = '';
+				
+				//用户报警设置
+				var partitionRatio_warnSet = Number(obj.warnSet.partitionratio);//告警设置的节点分区使用率阀值
+				var cpu = Number(obj.warnSet.cpu);//告警设置的节点cpu使用率阀值
+				var mem = Number(obj.warnSet.mem);//告警设置的节点内存使用率阀值
+				var loadValue = Number(obj.warnSet.loadValue);//告警设置的节点系统负载阀值
+				
+				localStorage.loadValue = loadValue;
+				
+				for(var i = 0; i<len; i++){
+					var name = obj.nodes_list[i].name;//节点名称
+					var ip = obj.nodes_list[i].ip;//IP
+					var ipForId = "ip" + ip.split(".").join("_");
+					var nodesStatus = obj.nodes_list[i].latestData.nodesStatus;//主从类型及是否在线
+					var type = "";
+					if(nodesStatus == "main"){
+						type = "主";	
+					}else if(nodesStatus == "bak"){
+						type = "从";	
+					}else if(nodesStatus == "unknow"){
+						type = "离线";	
+					}else if(nodesStatus == "offline"){
+						type = "离线";
+					}else{
+						type = "异常";
+					}
+					
+					//在线
+					if(nodesStatus == "main" || nodesStatus == "bak"){
+						var cpu_ratio = Number(obj.nodes_list[i].latestData.LatestCPUData[0][3]);//CPU使用率
+						if(cpu_ratio>cpu){
+							cpu_ratio = '<span style="color:#ff0000">' + cpu_ratio + '%</span>';
+						}else{
+							cpu_ratio = cpu_ratio + '%';
+						}
+						
+						var mem_ratio = Number(obj.nodes_list[i].latestData.LatestMemData[0][3]);//内存使用率
+						if(mem_ratio>mem){
+							mem_ratio = '<span style="color:#ff0000">' + mem_ratio + '%</span>';
+						}else{
+							mem_ratio = mem_ratio + '%';
+						}
+						
+						var mem_value = Number(obj.nodes_list[i].latestData.LatestMemData[0][5]);//内存大小
+						//计算输出单位
+// 						console.log("内存大小：");
+						
+						if(mem_value >= 1024 && mem_value < (1024*1024)){
+							mem_value = (mem_value/1024).toFixed(2) + "M";
+						}else if(mem_value >= (1024*1024) && mem_value < (1024*1024*1024)){
+							mem_value = (mem_value/(1024*1024)).toFixed(2) + "G";
+						}else if(mem_value >= (1024*1024*1024)){
+							mem_value = (mem_value/(1024*1024*1024)).toFixed(2) + "T";
+						}else{
+							mem_value+="K";
+						}
+// 						console.log(mem_value);
+						
+// 						console.log("CPU使用率：");
+// 						console.log(cpu_ratio);
+// 						console.log("内存使用率：");
+// 						console.log(mem_ratio);
+						
+						//========判断系统服务状态========
+						var LatestServiceData_status_flag = 0;//所有服务平台状态值和
+						var LatestServiceData_status_arr_len = obj.nodes_list[i].latestData.LatestServiceData.length
+						var LatestServiceData_status_arr = [];//所有服务平台状态值数组
+						
+						//各个服务平台内容（tips显示）
+						var webui_popover_content_li = "";
+						for(var n = 0; n<LatestServiceData_status_arr_len; n++){
+							if(Number(obj.nodes_list[i].latestData.LatestServiceData[n][4]) == 0){
+								LatestServiceData_status_flag ++;//如果服务平台状态为0；则加1
+								webui_popover_content_li += '<li>'+obj.nodes_list[i].latestData.LatestServiceData[n][2]+'：<i class="icon wb-large-point tooltip-success" style="color:#46be8a;cursor:pointer;" data-placement="right" data-trigger="click" data-original-title="系统分区101%" title=""></i><span class="badge badge-radius badge-dark">正常</span></li>';
+							}else{
+								webui_popover_content_li += '<li>'+obj.nodes_list[i].latestData.LatestServiceData[n][2]+'：<i class="icon wb-large-point tooltip-success" style="color:#FF0000;cursor:pointer;" data-placement="right" data-trigger="click" data-original-title="系统分区101%" title=""></i><span class="badge badge-radius badge-dark">异常</span></li>';
+							}
+							LatestServiceData_status_arr.push(obj.nodes_list[i].latestData.LatestServiceData[n][4]);
+						}
+						//表格中系统服务亮灯状态
+						var service_status;
+						if(LatestServiceData_status_flag == LatestServiceData_status_arr.length){
+							service_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#46be8a;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+						}else if(LatestServiceData_status_flag == 0){
+							service_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#ff0000;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+						}else{
+							service_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#ffc333;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+						}
+// 						console.log("服务状态：");
+// 						console.log(service_status);
+						
+						//========判断分区状态========
+						var LatestPartitionData_status_flag = 0;
+						var LatestPartitionData_status_arr_len = obj.nodes_list[i].latestData.LatestPartitionData.length
+						var LatestPartitionData_status_arr = [];
+						for(var n = 0; n<LatestPartitionData_status_arr_len; n++){
+							if(Number(obj.nodes_list[i].latestData.LatestPartitionData[n][3]) < partitionRatio_warnSet){
+								LatestPartitionData_status_flag ++;
+							}
+							LatestPartitionData_status_arr.push(obj.nodes_list[i].latestData.LatestPartitionData[n][3]);
+						}
+						var partition_status;
+						if(LatestPartitionData_status_flag == LatestPartitionData_status_arr.length){
+							partition_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="top"><span class="prefix"><i onclick="getPartitionStatus(\''+ip+'\')" data-target="#partition_status" data-toggle="modal" class="icon wb-large-point tooltip-warning" style="color:#46be8a;cursor:pointer;"></i></span></a><div  class="webui-popover-content"><ul class="dropdown-menu" ><li style="border:0;">点击该状态查看分区详情</li></ul></div>';
+						}else if(LatestPartitionData_status_flag == 0){
+							partition_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="top"><span class="prefix"><i onclick="getPartitionStatus(\''+ip+'\')" data-target="#partition_status" data-toggle="modal" class="icon wb-large-point tooltip-warning" style="color:#ff0000;cursor:pointer;"></i></span></a><div  class="webui-popover-content"><ul class="dropdown-menu" ><li style="border:0;">点击该状态查看分区详情</li></ul></div>';
+						}else{
+							partition_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="top"><span class="prefix"><i onclick="getPartitionStatus(\''+ip+'\')" data-target="#partition_status" data-toggle="modal" class="icon wb-large-point tooltip-warning" style="color:#ffc333;cursor:pointer;"></i></span></a><div  class="webui-popover-content"><ul class="dropdown-menu" ><li style="border:0;">点击该状态查看分区详情</li></ul></div>';
+						}
+// 						console.log("分区状态：");
+// 						console.log(partition_status);
+						
+						//========判断加密卡状态========
+						var LatestEncardData_status_flag = 0;//加密卡状态数组元素和
+						var LatestEncardData_status_arr_len = obj.nodes_list[i].latestData.LatestEncardData.length//加密卡个数
+						var LatestEncardData_status_arr = [];//加密卡状态数组
+						//表格中加密卡亮灯状态
+						var encard_status;
+						
+						if(LatestEncardData_status_arr_len > 0){
+							//各个加密卡内容（tips显示）
+							var webui_popover_content_li = "";
+							for(var n = 0; n<LatestEncardData_status_arr_len; n++){
+								if(Number(obj.nodes_list[i].latestData.LatestEncardData[n][4]) == 0){
+									LatestEncardData_status_flag ++;
+									webui_popover_content_li += '<li>'+obj.nodes_list[i].latestData.LatestEncardData[n][2]+'：<i class="icon wb-large-point tooltip-success" style="color:#46be8a;cursor:pointer;" data-placement="right" data-trigger="click" data-original-title="" title=""></i><span class="badge badge-radius badge-dark">正常</span></li>';
+								}else{
+									webui_popover_content_li += '<li>'+obj.nodes_list[i].latestData.LatestEncardData[n][2]+'：<i class="icon wb-large-point tooltip-success" style="color:#FF0000;cursor:pointer;" data-placement="right" data-trigger="click" data-original-title="" title=""></i><span class="badge badge-radius badge-dark">异常</span></li>';
+								}
+								LatestEncardData_status_arr.push(obj.nodes_list[i].latestData.LatestEncardData[n][4]);
+							}
+							//表格中加密卡亮灯状态
+							//encard_status;
+							if(LatestEncardData_status_flag == LatestEncardData_status_arr.length){
+								encard_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#46be8a;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+							}else if(LatestEncardData_status_flag == 0){
+								encard_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#ff0000;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+							}else{
+								encard_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#ffc333;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+							}
+// 							console.log("加密卡状态：");
+// 							console.log(encard_status);
+						}else if(LatestEncardData_status_arr_len == 0){
+							encard_status = '<i class="icon wb-large-point" style="color:#999999;"></i>';
+						}
+						
+						//========系统负载========
+						var sysload = Number(obj.nodes_list[i].latestData.LatestSysloadData[0][5]);
+						if(sysload>loadValue){
+							sysload = '<span style="color:#ff0000">' + sysload + '</span>';
+						}
+
+// 						console.log("系统负载：");
+// 						console.log(sysload);
+						
+						//========判断HBA卡状态========
+						var LatestHBAData_status_flag = 0;//所有端口状态和
+						var LatestHBAData_status_arr_len = obj.nodes_list[i].latestData.LatestHBAData.length//端口个数
+						var LatestHBAData_status_arr = [];//所有端口集合
+						//表格中HBA亮灯状态
+						var hba_status;
+						
+						if(LatestHBAData_status_arr_len > 0){
+							//HBA中各个端口内容（tips显示）
+							var webui_popover_content_li = "";
+							for(var n = 0; n<LatestHBAData_status_arr_len; n++){
+								if(Number(obj.nodes_list[i].latestData.LatestHBAData[n][4]) == 0){
+									LatestHBAData_status_flag ++;
+									webui_popover_content_li += '<li>'+obj.nodes_list[i].latestData.LatestHBAData[n][2]+'：<i class="icon wb-large-point tooltip-success" style="color:#46be8a;cursor:pointer;" data-placement="right" data-trigger="click" data-original-title="" title=""></i><span class="badge badge-radius badge-dark">正常</span>，  最大带宽： <span class="badge badge-radius badge-dark">'+obj.nodes_list[i].latestData.LatestHBAData[n][5]+' </span> Gbit/s</li>';
+								}else{
+									webui_popover_content_li += '<li>'+obj.nodes_list[i].latestData.LatestHBAData[n][2]+'：<i class="icon wb-large-point tooltip-success" style="color:#FF0000;cursor:pointer;" data-placement="right" data-trigger="click" data-original-title="" title=""></i><span class="badge badge-radius badge-dark">异常</span>， 最大带宽： <span class="badge badge-radius badge-dark">'+''+' </span> Gbit/s</li>';
+								}
+								LatestHBAData_status_arr.push(obj.nodes_list[i].latestData.LatestHBAData[n][4]);
+							}
+
+							if(LatestHBAData_status_flag == LatestHBAData_status_arr.length){
+								hba_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#46be8a;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+							}else if(LatestHBAData_status_flag == 0){
+								hba_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#ff0000;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+							}else{
+								hba_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#ffc333;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+							}
+// 							console.log("HBA卡状态：");
+// 							console.log(hba_status);
+						}else if(LatestHBAData_status_arr_len == 0){
+							hba_status = '<i class="icon wb-large-point" style="color:#999999;"></i>';
+						}
+						
+						//========判断网口状态========
+						var LatestNetData_status_flag = 0;//所有网口状态值和
+						var LatestNetData_status_arr_len = obj.nodes_list[i].latestData.LatestNetData.length;
+						var LatestNetData_status_arr = [];//所有网口状态值数组
+						//各网口内容（tips显示）
+						var webui_popover_content_li = "";
+						for(var n = 0; n<LatestNetData_status_arr_len; n++){
+							if(obj.nodes_list[i].latestData.LatestNetData[n][4] == 0){
+								LatestNetData_status_flag ++;
+								webui_popover_content_li += '<li>'+obj.nodes_list[i].latestData.LatestNetData[n][2]+'：<i class="icon wb-large-point tooltip-success" style="color:#46be8a;cursor:pointer;" data-placement="right" data-trigger="click" data-original-title="" title=""></i><span class="badge badge-radius badge-dark">正常</span>，使用率：<span class="badge badge-radius badge-dark">' + obj.nodes_list[i].latestData.LatestNetData[n][3] + ' </span> % ，最大带宽：<span class="badge badge-radius badge-dark">' + obj.nodes_list[i].latestData.LatestNetData[n][5] + ' </span> Mb/s</li>';
+							}else{
+								webui_popover_content_li += '<li>'+obj.nodes_list[i].latestData.LatestNetData[n][2]+'：<i class="icon wb-large-point tooltip-success" style="color:#FF0000;cursor:pointer;" data-placement="right" data-trigger="click" data-original-title="" title=""></i><span class="badge badge-radius badge-dark">异常</span>，使用率：<span class="badge badge-radius badge-dark">' + obj.nodes_list[i].latestData.LatestNetData[n][3] + ' </span> % ，最大带宽：<span class="badge badge-radius badge-dark">' + '' + ' </span> Mb/s</li>';
+							}
+							LatestNetData_status_arr.push(obj.nodes_list[i].latestData.LatestNetData[n][4]);
+						}
+						var net_status;
+						if(LatestNetData_status_flag == LatestNetData_status_arr.length){
+							net_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#46be8a;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+						}else if(LatestNetData_status_flag == 0){
+							net_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#ff0000;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+						}else{
+							net_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#ffc333;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+						}
+// 						console.log("网口状态：");
+// 						console.log(net_status);
+						
+						nodesHtml += '<tr role="row"><td class="nodeName"><a href="#" title="点击可以切换波形图的显示" target="_self" class="getCharts" data-placement="right" id="' + ipForId + '" alt="" onclick="getclick(' + '\'' + ipForId + '\'' + ',\'' + ip + '\'' + ');return false;">'+name+'</a></td><td class="nodeIp">'+ip+'</td><td class="nodeType">'+'<span class="badge badge-radius badge-info">'+type+'</span></td><td>'+cpu_ratio+'</td> <td>'+mem_ratio+' <span class="badge badge-radius badge-info">共：'+mem_value+'</span>'+'</td><td>'+service_status+'</td><td>'+partition_status+'</td><td>'+encard_status+'</td><td>'+sysload+'</td><td>'+hba_status+'</td><td>'+net_status+'</td></tr>';
+						
+					}else if(nodesStatus == "unknow"){
+						var cpu_ratio = Number(obj.nodes_list[i].latestData.LatestCPUData[0][3]);//CPU使用率
+						if(cpu_ratio>cpu){
+							cpu_ratio = '<span style="color:#ff0000">' + cpu_ratio + '%</span>';
+						}else{
+							cpu_ratio = cpu_ratio + '%';
+						}
+						
+						var mem_ratio = Number(obj.nodes_list[i].latestData.LatestMemData[0][3]);//内存使用率
+						if(mem_ratio>mem){
+							mem_ratio = '<span style="color:#ff0000">' + mem_ratio + '%</span>';
+						}else{
+							mem_ratio = mem_ratio + '%';
+						}
+						
+						var mem_value = Number(obj.nodes_list[i].latestData.LatestMemData[0][5]);//内存大小
+						//计算输出单位
+// 						console.log("内存大小：");
+						
+						if(mem_value >= 1024 && mem_value < (1024*1024)){
+							mem_value = (mem_value/1024).toFixed(2) + "M";
+						}else if(mem_value >= (1024*1024) && mem_value < (1024*1024*1024)){
+							mem_value = (mem_value/(1024*1024)).toFixed(2) + "G";
+						}else if(mem_value >= (1024*1024*1024)){
+							mem_value = (mem_value/(1024*1024*1024)).toFixed(2) + "T";
+						}else{
+							mem_value+="K";
+						}
+// 						console.log(mem_value);
+						
+// 						console.log("CPU使用率：");
+// 						console.log(cpu_ratio);
+// 						console.log("内存使用率：");
+// 						console.log(mem_ratio);
+						
+						//========判断系统服务状态========
+						var LatestServiceData_status_flag = 0;//所有服务平台状态值和
+						var LatestServiceData_status_arr_len = obj.nodes_list[i].latestData.LatestServiceData.length
+						var LatestServiceData_status_arr = [];//所有服务平台状态值数组
+						
+						//各个服务平台内容（tips显示）
+						var webui_popover_content_li = "";
+						for(var n = 0; n<LatestServiceData_status_arr_len; n++){
+							if(Number(obj.nodes_list[i].latestData.LatestServiceData[n][4]) == 0){
+								LatestServiceData_status_flag ++;//如果服务平台状态为0；则加1
+								webui_popover_content_li += '<li>'+obj.nodes_list[i].latestData.LatestServiceData[n][2]+'：<i class="icon wb-large-point tooltip-success" style="color:#46be8a;cursor:pointer;" data-placement="right" data-trigger="click" data-original-title="系统分区101%" title=""></i><span class="badge badge-radius badge-dark">正常</span></li>';
+							}else{
+								webui_popover_content_li += '<li>'+obj.nodes_list[i].latestData.LatestServiceData[n][2]+'：<i class="icon wb-large-point tooltip-success" style="color:#FF0000;cursor:pointer;" data-placement="right" data-trigger="click" data-original-title="系统分区101%" title=""></i><span class="badge badge-radius badge-dark">异常</span></li>';
+							}
+							LatestServiceData_status_arr.push(obj.nodes_list[i].latestData.LatestServiceData[n][4]);
+						}
+						//表格中系统服务亮灯状态
+						var service_status;
+						if(LatestServiceData_status_flag == LatestServiceData_status_arr.length){
+							service_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#46be8a;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+						}else if(LatestServiceData_status_flag == 0){
+							service_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#ff0000;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+						}else{
+							service_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#ffc333;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+						}
+// 						console.log("服务状态：");
+// 						console.log(service_status);
+						
+						//========判断分区状态========
+						var LatestPartitionData_status_flag = 0;
+						var LatestPartitionData_status_arr_len = obj.nodes_list[i].latestData.LatestPartitionData.length
+						var LatestPartitionData_status_arr = [];
+						for(var n = 0; n<LatestPartitionData_status_arr_len; n++){
+							if(Number(obj.nodes_list[i].latestData.LatestPartitionData[n][3]) < partitionRatio_warnSet){
+								LatestPartitionData_status_flag ++;
+							}
+							LatestPartitionData_status_arr.push(obj.nodes_list[i].latestData.LatestPartitionData[n][3]);
+						}
+						var partition_status;
+						if(LatestPartitionData_status_flag == LatestPartitionData_status_arr.length){
+							partition_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="top"><span class="prefix"><i onclick="getPartitionStatus(\''+ip+'\')" data-target="#partition_status" data-toggle="modal" class="icon wb-large-point tooltip-warning" style="color:#46be8a;cursor:pointer;"></i></span></a><div  class="webui-popover-content"><ul class="dropdown-menu" ><li style="border:0;">点击该状态查看分区详情</li></ul></div>';
+						}else if(LatestPartitionData_status_flag == 0){
+							partition_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="top"><span class="prefix"><i onclick="getPartitionStatus(\''+ip+'\')" data-target="#partition_status" data-toggle="modal" class="icon wb-large-point tooltip-warning" style="color:#ff0000;cursor:pointer;"></i></span></a><div  class="webui-popover-content"><ul class="dropdown-menu" ><li style="border:0;">点击该状态查看分区详情</li></ul></div>';
+						}else{
+							partition_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="top"><span class="prefix"><i onclick="getPartitionStatus(\''+ip+'\')" data-target="#partition_status" data-toggle="modal" class="icon wb-large-point tooltip-warning" style="color:#ffc333;cursor:pointer;"></i></span></a><div  class="webui-popover-content"><ul class="dropdown-menu" ><li style="border:0;">点击该状态查看分区详情</li></ul></div>';
+						}
+// 						console.log("分区状态：");
+// 						console.log(partition_status);
+						
+						//========判断加密卡状态========
+						var LatestEncardData_status_flag = 0;//加密卡状态数组元素和
+						var LatestEncardData_status_arr_len = obj.nodes_list[i].latestData.LatestEncardData.length//加密卡个数
+						var LatestEncardData_status_arr = [];//加密卡状态数组
+						//表格中加密卡亮灯状态
+						var encard_status;
+						
+						if(LatestEncardData_status_arr_len > 0){
+							//各个加密卡内容（tips显示）
+							var webui_popover_content_li = "";
+							for(var n = 0; n<LatestEncardData_status_arr_len; n++){
+								if(Number(obj.nodes_list[i].latestData.LatestEncardData[n][4]) == 0){
+									LatestEncardData_status_flag ++;
+									webui_popover_content_li += '<li>'+obj.nodes_list[i].latestData.LatestEncardData[n][2]+'：<i class="icon wb-large-point tooltip-success" style="color:#46be8a;cursor:pointer;" data-placement="right" data-trigger="click" data-original-title="" title=""></i><span class="badge badge-radius badge-dark">正常</span></li>';
+								}else{
+									webui_popover_content_li += '<li>'+obj.nodes_list[i].latestData.LatestEncardData[n][2]+'：<i class="icon wb-large-point tooltip-success" style="color:#FF0000;cursor:pointer;" data-placement="right" data-trigger="click" data-original-title="" title=""></i><span class="badge badge-radius badge-dark">异常</span></li>';
+								}
+								LatestEncardData_status_arr.push(obj.nodes_list[i].latestData.LatestEncardData[n][4]);
+							}
+							//表格中加密卡亮灯状态
+							//encard_status;
+							if(LatestEncardData_status_flag == LatestEncardData_status_arr.length){
+								encard_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#46be8a;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+							}else if(LatestEncardData_status_flag == 0){
+								encard_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#ff0000;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+							}else{
+								encard_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#ffc333;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+							}
+// 							console.log("加密卡状态：");
+// 							console.log(encard_status);
+						}else if(LatestEncardData_status_arr_len == 0){
+							encard_status = '<i class="icon wb-large-point" style="color:#999999;"></i>';
+						}
+						
+						//========系统负载========
+						var sysload = Number(obj.nodes_list[i].latestData.LatestSysloadData[0][5]);
+						if(sysload>loadValue){
+							sysload = '<span style="color:#ff0000">' + sysload + '</span>';
+						}
+
+// 						console.log("系统负载：");
+// 						console.log(sysload);
+						
+						//========判断HBA卡状态========
+						var LatestHBAData_status_flag = 0;//所有端口状态和
+						var LatestHBAData_status_arr_len = obj.nodes_list[i].latestData.LatestHBAData.length//端口个数
+						var LatestHBAData_status_arr = [];//所有端口集合
+						//表格中HBA亮灯状态
+						var hba_status;
+						
+						if(LatestHBAData_status_arr_len > 0){
+							//HBA中各个端口内容（tips显示）
+							var webui_popover_content_li = "";
+							for(var n = 0; n<LatestHBAData_status_arr_len; n++){
+								if(Number(obj.nodes_list[i].latestData.LatestHBAData[n][4]) == 0){
+									LatestHBAData_status_flag ++;
+									webui_popover_content_li += '<li>'+obj.nodes_list[i].latestData.LatestHBAData[n][2]+'：<i class="icon wb-large-point tooltip-success" style="color:#46be8a;cursor:pointer;" data-placement="right" data-trigger="click" data-original-title="" title=""></i><span class="badge badge-radius badge-dark">正常</span>，  最大带宽： <span class="badge badge-radius badge-dark">'+obj.nodes_list[i].latestData.LatestHBAData[n][5]+' </span> Gbit/s</li>';
+								}else{
+									webui_popover_content_li += '<li>'+obj.nodes_list[i].latestData.LatestHBAData[n][2]+'：<i class="icon wb-large-point tooltip-success" style="color:#FF0000;cursor:pointer;" data-placement="right" data-trigger="click" data-original-title="" title=""></i><span class="badge badge-radius badge-dark">异常</span>， 最大带宽： <span class="badge badge-radius badge-dark">'+''+' </span> Gbit/s</li>';
+								}
+								LatestHBAData_status_arr.push(obj.nodes_list[i].latestData.LatestHBAData[n][4]);
+							}
+
+							if(LatestHBAData_status_flag == LatestHBAData_status_arr.length){
+								hba_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#46be8a;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+							}else if(LatestHBAData_status_flag == 0){
+								hba_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#ff0000;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+							}else{
+								hba_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#ffc333;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+							}
+// 							console.log("HBA卡状态：");
+// 							console.log(hba_status);
+						}else if(LatestHBAData_status_arr_len == 0){
+							hba_status = '<i class="icon wb-large-point" style="color:#999999;"></i>';
+						}
+						
+						//========判断网口状态========
+						var LatestNetData_status_flag = 0;//所有网口状态值和
+						var LatestNetData_status_arr_len = obj.nodes_list[i].latestData.LatestNetData.length;
+						var LatestNetData_status_arr = [];//所有网口状态值数组
+						//各网口内容（tips显示）
+						var webui_popover_content_li = "";
+						for(var n = 0; n<LatestNetData_status_arr_len; n++){
+							if(obj.nodes_list[i].latestData.LatestNetData[n][4] == 0){
+								LatestNetData_status_flag ++;
+								webui_popover_content_li += '<li>'+obj.nodes_list[i].latestData.LatestNetData[n][2]+'：<i class="icon wb-large-point tooltip-success" style="color:#46be8a;cursor:pointer;" data-placement="right" data-trigger="click" data-original-title="" title=""></i><span class="badge badge-radius badge-dark">正常</span>，使用率：<span class="badge badge-radius badge-dark">' + obj.nodes_list[i].latestData.LatestNetData[n][3] + ' </span> % ，最大带宽：<span class="badge badge-radius badge-dark">' + obj.nodes_list[i].latestData.LatestNetData[n][5] + ' </span> Mb/s</li>';
+							}else{
+								webui_popover_content_li += '<li>'+obj.nodes_list[i].latestData.LatestNetData[n][2]+'：<i class="icon wb-large-point tooltip-success" style="color:#FF0000;cursor:pointer;" data-placement="right" data-trigger="click" data-original-title="" title=""></i><span class="badge badge-radius badge-dark">异常</span>，使用率：<span class="badge badge-radius badge-dark">' + obj.nodes_list[i].latestData.LatestNetData[n][3] + ' </span> % ，最大带宽：<span class="badge badge-radius badge-dark">' + '' + ' </span> Mb/s</li>';
+							}
+							LatestNetData_status_arr.push(obj.nodes_list[i].latestData.LatestNetData[n][4]);
+						}
+						var net_status;
+						if(LatestNetData_status_flag == LatestNetData_status_arr.length){
+							net_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#46be8a;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+						}else if(LatestNetData_status_flag == 0){
+							net_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#ff0000;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+						}else{
+							net_status = '<a href="#" class="webuiPopover show-pop-list" data-placement="vertical"><span class="prefix"><i class="icon wb-large-point tooltip-success" style="color:#ffc333;cursor:pointer;" data-toggle="tooltip" data-placement="right" data-trigger="click" data-original-title="" title=""></i> <span></span></a><div class="webui-popover-content"><ul class="dropdown-menu" >'+webui_popover_content_li+'</ul></div>';
+						}
+// 						console.log("网口状态：");
+// 						console.log(net_status);
+						
+						nodesHtml += '<tr role="row"><td class="nodeName"><a href="#" title="点击可以切换波形图的显示" target="_self" class="getCharts" data-placement="right" id="' + ipForId + '" alt="" onclick="getclick(' + '\'' + ipForId + '\'' + ',\'' + ip + '\'' + ');return false;">'+name+'</a></td><td class="nodeIp">'+ip+'</td><td class="nodeType">'+'<span class="badge badge-radius badge-danger">'+type+'</span></td><td>'+cpu_ratio+'</td> <td>'+mem_ratio+' <span class="badge badge-radius badge-info">共：'+mem_value+'</span>'+'</td><td>'+service_status+'</td><td>'+partition_status+'</td><td>'+encard_status+'</td><td>'+sysload+'</td><td>'+hba_status+'</td><td>'+net_status+'</td></tr>';
+					}else if(nodesStatus == "offline"){
+						nodesHtml += '<tr role="row"><td class="nodeName">'+name+' <span class="badge badge-default">离线</span></td><td class="nodeIp">'+ip+'</td><td class="nodeType">'+'<span class="badge badge-radius badge-default">'+type+'</span></td><td>---</td><td>---</td><td><i class="icon wb-large-point" style="color:#999999;"></i></td><td><i class="icon wb-large-point" style="color:#999999;"></i></td><td><i class="icon wb-large-point" style="color:#999999;"></i></td><td>---</td><td><i class="icon wb-large-point" style="color:#999999;"></i></td><td><i class="icon wb-large-point" style="color:#999999;"></i></td></tr>';
+
+					}else{
+						nodesHtml += '<tr role="row"><td class="nodeName">'+name+' <span class="badge badge-default">异常</span></td><td class="nodeIp">'+ip+'</td><td class="nodeType">'+'<span class="badge badge-radius badge-default">'+type+'</span></td><td>---</td><td>---</td><td><i class="icon wb-large-point" style="color:#999999;"></i></td><td><i class="icon wb-large-point" style="color:#999999;"></i></td><td><i class="icon wb-large-point" style="color:#999999;"></i></td><td>---</td><td><i class="icon wb-large-point" style="color:#999999;"></i></td><td><i class="icon wb-large-point" style="color:#999999;"></i></td></tr>';
+						//离线
+					}
+// 					else{
+// 						toastr.error("系统异常！", "警告");
+// 						nodesHtml += '<tr role="row"><td class="nodeName">'+name+' <span class="badge badge-default">异常</span></td><td class="nodeIp">'+ip+'</td><td class="nodeType">'+'<span class="badge badge-radius badge-default">'+'未知'+'</span></td><td>---</td><td>---</td><td><i class="icon wb-large-point" style="color:#999999;"></i></td><td><i class="icon wb-large-point" style="color:#999999;"></i></td><td><i class="icon wb-large-point" style="color:#999999;"></i></td><td>---</td><td><i class="icon wb-large-point" style="color:#999999;"></i></td><td><i class="icon wb-large-point" style="color:#999999;"></i></td></tr>';
+// 					}
+					
+				}//for循环 end
+				
+				$("#nodeList").html(nodesHtml);
+				$('.webuiPopover').webuiPopover({trigger:'hover'});
+				
+			}else{
+				toastr.error("显示全部节点时数据为空！", "警告");
+// 				console.log("显示全部节点时数据为空！");
+			}
+		},
+		error: function(msg){
+			toastr.error("系统错误，显示全部节点时获取不到数据！", "警告");
+// 			console.log("系统错误，显示全部节点时获取不到数据！");
+// 			console.log(msg);
+		}
+	});
+};
+
+/**
+ * 功能：点击切换图表
+ */
+function getclick(id, ip){
+	clearInterval(arr[0]);
+	var name = $("#" + id).text();
+	$("#cpuRate,#memRate,#netRate,#sysLoad,#ioThroughput").text(name);
+	getCharts(ip);
+	arr[0] = setInterval(function(){
+		getCharts(ip)
+	}, 1000*20);
+}
+
+/**
+ * 功能：基于准备好的dom，初始化echarts实例
+ */
+(function initCharts() {
+	myChart1 = echarts.init(document.getElementById('chart1'));
+	myChart2 = echarts.init(document.getElementById('chart2'));
+	myChart3 = echarts.init(document.getElementById('chart3'));
+	myChart4 = echarts.init(document.getElementById('chart4'));
+	myChart5 = echarts.init(document.getElementById('chart5'));
+
+	colors = ['#07992a', '#10639b', '#5f09c9', "#2695d5", "#279566", "#37A9B7", "#E53B75", "#715146", "#E98F2E"];
+	colors2 = colors.reverse();
+
+	var option1 = {
+		tooltip : {
+			trigger : 'axis'
+		},
+		xAxis : {
+			type : 'category',
+			data : []
+		},
+		yAxis : {
+			type : 'value',
+			min: 0,
+			max: 100
+		},
+		series : [ {
+			name : '使用率',
+			data : [],
+			type : 'line',
+			itemStyle : {
+				normal : {
+					color : "#178D81",
+					lineStyle : {
+						color : "#178D81"
+					}
+				}
+			}
+		} ]
+	};
+	myChart1.setOption(option1);
+
+	var option2 = {
+		tooltip : {
+			trigger : 'axis'
+		},
+		xAxis : {
+			type : 'category',
+			data : []
+		},
+		yAxis : {
+			type : 'value',
+			min: 0,
+			max: 100
+		},
+		series : [ {
+			name : '使用率',
+			data : [],
+			type : 'line',
+			itemStyle : {
+				normal : {
+					color : "#178D81",
+					lineStyle : {
+						color : "#178D81"
+					}
+				}
+			}
+		} ]
+	};
+	myChart2.setOption(option2);
+
+	var option3 = {
+		tooltip : {
+			trigger : 'axis'
+		},
+		legend : {
+			data : []
+		},
+		xAxis : {
+			type : 'category',
+			data : []
+		},
+		yAxis : {
+			type : 'value',
+			min: 0,
+			max: 100
+		},
+		series : []
+	};
+	myChart3.setOption(option3);
+
+	var option4 = {
+		tooltip : {
+			trigger : 'axis'
+		},
+		xAxis : {
+			type : 'category',
+			data : []
+		},
+		yAxis : {
+			type : 'value'
+		},
+		series : [ {
+			name : '使用率',
+			data : [],
+			type : 'line',
+			itemStyle : {
+				normal : {
+					color : "#178D81",
+					lineStyle : {
+						color : "#178D81"
+					}
+				}
+			}
+		} ]
+	};
+	myChart4.setOption(option4);
+
+	var option5 = {
+		tooltip : {
+			trigger : 'axis'
+		},
+		xAxis : {
+			type : 'category',
+			data : []
+		},
+		yAxis : {
+			type : 'value'
+		},
+		series : []
+	};
+	myChart5.setOption(option5);
+
+})();
+
+/**
+ * 功能：将节点数据载入图表
+ * 修改日期： 2018-05-20
+ * 修改人： 段圣辉
+ */
+function getCharts(ip) {	
+	var host = window.location.host;//当前域名
+	var dataType = "json";
+	var url = "";
+	if(ip == host){
+		dataType = "json";
+		url = "http://" + ip + "/monitor/monitoring/getMonitorData/";
+	}else{
+		dataType = "jsonp";
+		url = "http://" + ip + "/monitor/monitoring/getMonitorDataJsonp/";
+	}
+	
+	$.ajax({
+		type : "POST",
+		url : url,
+		data : {},
+		dataType : dataType,
+		timeout : 1000 * 60,
+		success : function(obj) {
+			if (obj) {
+				var mem_ratio = [];
+				var mem_time = [];
+				var cpu_ratio = [];
+				var cpu_time = [];
+				var sysload_value = [];
+				var sysload_time = [];
+				var net_ratio = [];
+				var net_time = [];
+				var io_value = [];
+				var io_time = [];
+
+				/*第一个chart：CPU使用率*/
+				for (var i = 0; i < obj.CPU.length; i++) {
+					cpu_ratio.push(Number(obj.CPU[i][3]));
+					var date = obj.CPU[i][6];
+					date = date.substring(8, 10) + ":"
+							+ date.substring(10, 12) + ":"
+							+ date.substring(12, 14); //20180427165937
+					cpu_time.push(date);
+				}
+				cpu_time = cpu_time.reverse();
+				cpu_time.pop();
+				cpu_ratio = cpu_ratio.reverse();
+				cpu_ratio.pop();
+
+				myChart1.setOption({
+					xAxis : {
+						data : cpu_time
+					},
+					series : [ {
+						data : cpu_ratio
+					} ]
+				});
+
+				/*第二个chart：内存使用率*/
+				for (var i = 0; i < obj.MEM.length; i++) {
+					mem_ratio.push(Number(obj.MEM[i][3]));
+					var date = obj.MEM[i][6];
+					date = date.substring(8, 10) + ":"
+							+ date.substring(10, 12) + ":"
+							+ date.substring(12, 14); //20180427165937
+					mem_time.push(date);
+				}
+				mem_time = mem_time.reverse();
+				mem_time.pop();
+				mem_ratio = mem_ratio.reverse();
+				mem_ratio.pop();
+
+				myChart2.setOption({
+					xAxis : {
+						data : mem_time
+					},
+					series : [ {
+						data : mem_ratio
+					} ]
+				});
+
+				/*第三个chart：网络使用率*/
+				var net = obj.NET;
+// 				console.log("========net========");
+// 				console.log(net);
+				var netTypeArr = [];//net类型
+				for (var i = 0; i < net.length; i++) {
+					if (netTypeArr.indexOf(net[i][2]) < 0) {
+						netTypeArr.push(net[i][2]);
+					}
+				}
+// 				console.log("========net类型========");
+// 				console.log(netTypeArr);
+
+				//将每一个net类型都定义为一个数组
+				var netTypeArrArr = [];
+				for (var i = 0; i < netTypeArr.length; i++) {
+					netTypeArrArr[i] = [];
+				}
+
+				//将net中元素：["net", "metadata", "元数据net", "-","", "", ""......]分类
+				for (var i = 0; i < net.length; i++) {
+					for (var j = 0; j < netTypeArr.length; j++) {
+						if (netTypeArr[j] == net[i][2]) {
+							netTypeArrArr[j].push(net[i]);
+						}
+					}
+				}
+
+// 				console.log("========net类型数组========");
+// 				console.log(netTypeArrArr);
+
+				//时间集合
+				var net_time = [];
+				for (var i = 0; i < netTypeArrArr[0].length; i++) {
+					var date = netTypeArrArr[0][i][6];//20180427165937
+					date = date.substring(8, 10) + ":"
+							+ date.substring(10, 12) + ":"
+							+ date.substring(12, 14);
+					net_time.push(date);
+				}
+// 				console.log("========net时间集合========");
+// 				console.log(net_time);
+
+				//新建一个对象数组，用于存储net类型和对应的value数组
+				var netTypeArrObjArr = [];
+				for (var i = 0; i < netTypeArrArr.length; i++) {
+					netTypeArrObjArr[i] = {
+						netType : "",
+						netValue : []
+					};
+				}
+
+				//net不同类型value结合[[1,3,5],[2,4,6]]
+				var netValueArr = [];
+				for (var i = 0; i < netTypeArrArr.length; i++) {
+					netValueArr[i] = [];
+				}
+
+				for (var i = 0; i < netTypeArrArr.length; i++) {
+					for (var j = 0; j < netTypeArrArr[i].length; j++) {
+						netValueArr[i].push(Number(netTypeArrArr[i][j][3]));
+					}
+					netTypeArrObjArr[i].netType = netTypeArrArr[i][0][2];
+					netTypeArrObjArr[i].netValue = netValueArr[i];
+				}
+
+// 				console.log("========netTypeArrObjArr========");
+// 				console.log(netTypeArrObjArr);
+
+// 				console.log("========每种net类型value集合========");
+// 				console.log(netValueArr);
+
+				var net_series = [];
+				var legendData = [];
+				for (var i = 0; i < netTypeArrObjArr.length; i++) {
+					legendData.push(netTypeArrObjArr[i].netType);
+					net_series.push({
+						name : netTypeArrObjArr[i].netType,
+						data : netTypeArrObjArr[i].netValue.reverse(),
+						type : 'line',
+						itemStyle : {
+							normal : {
+								color : colors[i],
+								lineStyle : {
+									color : colors[i]
+								}
+							}
+						}
+					})
+				}
+
+				myChart3.setOption({
+					tooltip : {
+						trigger : 'axis'
+					},
+					legend : {
+						data : legendData
+					},
+					xAxis : {
+						type : 'category',
+						data : net_time.reverse()
+					},
+					yAxis : {
+						type : 'value',
+						min: 0,
+						max: 100
+					},
+					series : net_series
+				}, true);
+
+				/*第四个chart：系统负载*/
+				for (var i = 0; i < obj.SYSLOAD.length; i++) {
+					sysload_value.push(Number(obj.SYSLOAD[i][5]));
+					var date = obj.SYSLOAD[i][6];
+					date = date.substring(8, 10) + ":"
+							+ date.substring(10, 12) + ":"
+							+ date.substring(12, 14); //20180427165937
+					sysload_time.push(date);
+				}
+				sysload_time = sysload_time.reverse();
+				sysload_time.pop();
+				sysload_value = sysload_value.reverse();
+				sysload_value.pop();
+				
+				//设置y轴最大值
+				var sysload_value_max = Number(sysload_value[0]) || 0;
+
+				for(var i=0;i<sysload_value.length;i++){ 
+				  if(sysload_value_max < Number(sysload_value[i])){
+					  sysload_value_max = sysload_value[i];
+				  }
+				}
+				
+				var sysload_y_axis = {};
+				
+				if(sysload_value_max >= localStorage.loadValue){
+					sysload_y_axis = {
+							type : 'value'
+					}
+				}else{
+					sysload_y_axis = {
+							type : 'value',
+							min: 0,
+							max: localStorage.loadValue
+						}
+				}
+
+				myChart4.setOption({
+					xAxis : {
+						data : sysload_time
+					},
+					yAxis : sysload_y_axis,
+					series : [ {
+						data : sysload_value
+					} ]
+				});
+
+				/*第五个chart：IO吞吐量*/
+				//IO吞吐量
+				var io = obj.IO;
+// 				console.log("========io========");
+// 				console.log(io);
+				var ioTypeArr = [];//IO类型，比如：['元数据分区IO'、'数据分区IO'、'备份分区IO'、'xxx加密卷IO']
+				for (var i = 0; i < io.length; i++) {
+					if (ioTypeArr.indexOf(io[i][2]) < 0) {
+						ioTypeArr.push(io[i][2]);
+					}
+				}
+// 				console.log("========io类型========");
+// 				console.log(ioTypeArr);
+
+				//将每一个io类型都定义为一个数组
+				//比如backup类型元素值为:["IO", "backup", "元数据IO", "-", "0", "2", "20180427171344", "", "", ""]
+				var ioTypeArrArr = [];
+				if (ioTypeArr.length > 0) {
+					for (var i = 0; i < ioTypeArr.length; i++) {
+						ioTypeArrArr[i] = [];
+					}
+				}
+
+				//将io中元素：["IO", "metadata", "元数据IO", "-","", "", ""......]分类
+				for (var i = 0; i < io.length; i++) {
+					for (var j = 0; j < ioTypeArr.length; j++) {
+						if (ioTypeArr[j] == io[i][2]) {
+							ioTypeArrArr[j].push(io[i]);
+						}
+					}
+				}
+
+// 				console.log("========io类型数组========");
+// 				console.log(ioTypeArrArr);
+
+				//时间集合
+				var io_time = [];
+				for (var i = 0; i < ioTypeArrArr[0].length; i++) {
+					var date = ioTypeArrArr[0][i][6];//20180427165937
+					date = date.substring(8, 10) + ":"
+							+ date.substring(10, 12) + ":"
+							+ date.substring(12, 14);
+					io_time.push(date);
+				}
+// 				console.log("========IO时间集合========");
+// 				console.log(io_time);
+
+				//新建一个对象数组，用于存储io类型和对应的value数组
+				var ioTypeArrObjArr = [];
+				for (var i = 0; i < ioTypeArrArr.length; i++) {
+					ioTypeArrObjArr[i] = {
+						ioType : "",
+						ioValue : []
+					};
+				}
+
+				//IO不同类型value结合[[1,3,5],[2,4,6]]
+				var ioValueArr = [];
+				for (var i = 0; i < ioTypeArrArr.length; i++) {
+					ioValueArr[i] = [];
+				}
+				for (var i = 0; i < ioTypeArrArr.length; i++) {
+					for (var j = 0; j < ioTypeArrArr[i].length; j++) {
+						ioValueArr[i].push(ioTypeArrArr[i][j][5]);
+					}
+					ioTypeArrObjArr[i].ioType = ioTypeArrArr[i][0][2];
+					ioTypeArrObjArr[i].ioValue = ioValueArr[i];
+				}
+
+// 				console.log("========ioTypeArrObjArr========");
+// 				console.log(ioTypeArrObjArr);
+
+// 				console.log("========每种IO类型value集合========");
+// 				console.log(ioValueArr);
+				
+				//设置y轴最大值
+				var ioValue_max = Number(ioValueArr[0][0]) || 0;
+				
+				for(var n = 0; n<ioValueArr.length; n++){
+					for(var i=0;i<ioValueArr[n].length;i++){
+						  if(Number(ioValueArr[n][i]) > ioValue_max){
+							  ioValue_max = ioValueArr[n][i];
+						  }
+					}
+				}
+				
+				var io_y_axis = {};
+				
+				if(ioValue_max >= 100){
+					io_y_axis = {
+							type : 'value'
+					}
+				}else{
+					io_y_axis = {
+							type : 'value',
+							min: 0,
+							max: 100
+					}
+				}
+
+				var io_series = [];
+				for (var i = 0; i < ioTypeArrObjArr.length; i++) {
+					io_series.push({
+						name : ioTypeArrObjArr[i].ioType,
+						data : ioTypeArrObjArr[i].ioValue.reverse(),
+						type : 'line',
+						itemStyle : {
+							normal : {
+								color : colors[i],
+								lineStyle : {
+									color : colors2[i]
+								}
+							}
+						}
+					})
+				}
+
+				myChart5.setOption({
+					legend : {
+						data : ioTypeArr
+					},
+					tooltip : {
+						trigger : 'axis'
+					},
+					xAxis : {
+						type : 'category',
+						data : io_time.reverse()
+					},
+					yAxis : io_y_axis,
+					series : io_series
+				}, true);
+
+			} else {
+// 				console.log("节点信息获取失败");
+				toastr.error("节点信息获取失败", "警告");
+			}
+		},
+		error : function(msg) {
+// 			console.log("获取节点信息失败");
+			toastr.error("获取节点信息失败", "警告");
+		}
+	});
+};
+
+window.onresize = function(){
+	myChart1.resize();
+	myChart2.resize();
+	myChart3.resize();
+	myChart4.resize();
+	myChart5.resize();
+}
+
+toastr.options = {
+	closeButton : true,
+	debug : false,
+	progressBar : true,
+	positionClass : "toast-top-right",
+	onclick : null,
+	showDuration : "30000",
+	hideDuration : "10000",
+	timeOut : "10000",
+	extendedTimeOut : "1000",
+	showEasing : "swing",
+	hideEasing : "linear",
+	showMethod : "fadeIn",
+	hideMethod : "fadeOut"
+};
+//常规消息提示，默认背景为浅蓝色
+//toastr.info("你有新消息了!");
+//成功消息提示，默认背景为浅绿色
+//toastr.success("你有新消息了!");
+//警告消息提示，默认背景为橘黄色
+//toastr.warning("你有新消息了!");
+//错误消息提示，默认背景为浅红色
+//toastr.error("你有新消息了!");
+//带标题的消息框
+//toastr.success("你有新消息了!","消息提示");
+//另一种调用方法
+//toastr["info"]("你有新消息了!","消息提示");
+//toastr.warning("系统错误，请稍后重试！", "Error");
+</script>
+</body>
+</html>

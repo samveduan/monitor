@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>用户管理</title>
+ <link rel="stylesheet" href="themes/classic/global/css/bootstrap.css" />
+ <link rel="stylesheet" href="themes/classic/base/css/site.css" id="admui-siteStyle" />
+ <!--[if lte IE 9]>
+ <meta http-equiv="refresh" content="0; url=''" />
+ <![endif]-->
+ <!--[if lt IE 10]>
+ <script src="vendor/media-match/media.match.min.js"></script>
+ <script src="vendor/respond/respond.min.js"></script>
+ <![endif]-->
+ <!-- 图标 CSS-->
+ <link rel="stylesheet" href="fonts/font-awesome/font-awesome.css" />
+ <link rel="stylesheet" href="fonts/web-icons/web-icons.css" />
+ <!-- 插件 CSS -->
+ <link rel="stylesheet" href="vendor/animsition/animsition.css" />
+ <link rel="stylesheet" href="vendor/toastr/toastr.css" />
+ <!--表单验证 begin-->
+ <link rel="stylesheet" href="vendor/formvalidation/formValidation.css" />
+ <link rel="stylesheet" href="css/examples/forms/validation.css" />
+ <!--表格 begin-->
+ <link rel="stylesheet" href="vendor/datatables-bootstrap/dataTables.bootstrap.css" />
+ <link rel="stylesheet" href="vendor/datatables-responsive/dataTables.responsive.css" />
+ <link rel="stylesheet" href="vendor/highlight/default.css" />
+ <link rel="stylesheet" href="vendor/highlight/github-gist.css" />
+ <link rel="stylesheet" href="vendor/highlight/highlight.css" />
+ <link rel="stylesheet" href="css/examples/tables/data-tables/examples.css" />
+ <!-- 基础  -->
+ <script src="vendor/jquery/jquery.min.js"></script>
+ <script src="vendor/bootstrap/bootstrap.min.js"></script>
+ <!-- 核心  -->
+ <script src="themes/classic/global/js/core.js"></script>
+ <script src="themes/classic/base/js/site.js"></script>
+ <script src="themes/classic/global/js/configs/site-configs.js"></script>
+ <script src="themes/classic/global/js/components.js"></script>
+ <script src="vendor/toastr/toastr.min.js"></script>
+</head>
+<body style="margin:0; padding: 0;background:#f1f4f5;">
+
+
+<!--//table begin-->
+<script src="vendor/datatables/jquery.dataTables.min.js" data-name="dataTables"></script>
+<script src="vendor/datatables-bootstrap/dataTables.bootstrap.min.js" data-deps="dataTables"></script>
+<script src="vendor/datatables-responsive/dataTables.responsive.min.js" data-deps="dataTables"></script>
+<script src="vendor/highlight/highlight.pack.min.js"></script>
+<script src="themes/classic/base/js/app.js" data-name="app"></script>
+<script src="js/examples/tables/data-tables/common.js" data-deps="app"></script>
+<!--//表单验证 begin-->
+<script src="vendor/formvalidation/formValidation.min.js" data-name="formValidation"></script>
+<script src="vendor/formvalidation/framework/bootstrap.min.js" data-deps="formValidation"></script>
+<!-- 插件 -->
+<script src="vendor/jquery-pjax/jquery.pjax.min.js"></script>
+<script src="themes/classic/global/js/plugins/responsive-tabs.js"></script>
+<script src="vendor/ashoverscroll/jquery-asHoverScroll.min.js"></script>
+<script src="vendor/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="vendor/screenfull/screenfull.min.js"></script>
+<!-- 功能 -->
+<script>
+//监控系统状态 begin
+function monitor(){
+		console.log("========【监控】模块开始========");
+		$.ajax({
+			type: "POST",
+			url: "/monitor/monitoring/getTableData/",
+			data: {},
+			dataType: 'json',
+			timeout: 1000 * 60,
+			success: function(obj){
+					if(obj){
+						var len = obj.nodes_list.length;
+						console.log("集群中节点个数：");
+						console.log(len);
+						
+						console.log("报警时获取的节点信息：");
+						console.log(obj);
+						
+						var alarmInfo = "";
+						
+						//用户报警设置
+						var nodeoffline_warntype = obj.warnSet.nodeoffline_warntype;//告警设置的节点离线时报警方式
+						var cpu = Number(obj.warnSet.cpu);//告警设置的节点cpu使用率阀值
+						var mem = Number(obj.warnSet.mem);//告警设置的节点内存使用率阀值
+						var load_warntype = obj.warnSet.load_warntype;//系统负载超过阀值时
+						var service_warntype = obj.warnSet.service_warntype;//服务状态异常时
+						var partition_warntype = obj.warnSet.partition_warntype;//分区状态异常时
+						var card_warntype = obj.warnSet.card_warntype;//加密卡状态异常时
+						var netport_warntype = obj.warnSet.netport_warntype;//网口状态异常时
+						var hba_warntype = obj.warnSet.hba_warntype;//HBA卡状态异常时报警方式
+						var cpu_warntype = obj.warnSet.cpu_warntype;//CPU使用率超过设定值时报警方式
+						var mem_warntype = obj.warnSet.mem_warntype;//内存使用率超过设定值时报警方式
+						var partitionratio = Number(obj.warnSet.partitionratio);//告警设置的节点分区使用率阀值
+						var partitionratiotype = obj.warnSet.partitionratiotype;//节点分区使用率超过设定值时报警方式
+						var loadValue = obj.warnSet.loadValue;//系统负载
+						
+						for(var i = 0; i<len; i++){
+							var name = obj.nodes_list[i].name;//节点名称
+							var ip = obj.nodes_list[i].ip;//IP
+							var ipForId = "ip" + ip.split(".").join("_");
+							var nodesStatus = obj.nodes_list[i].latestData.nodesStatus;//主从类型及是否在线
+							var type = "";
+							if(nodesStatus == "main"){
+								type = "主";	
+							}else if(nodesStatus == "bak"){
+								type = "从";	
+							}else if(nodesStatus == "unknow"){
+								type = "离线";	
+							}else if(nodesStatus == "offline"){
+								type = "离线";
+							}else{
+								type = "异常";
+							}
+							
+							if(nodesStatus == "main" || nodesStatus == "bak" || nodesStatus == "unknow"){
+								
+								var cpu_ratio = Number(obj.nodes_list[i].latestData.LatestCPUData[0][3]);//CPU使用率
+								var mem_ratio = Number(obj.nodes_list[i].latestData.LatestMemData[0][3]);//内存使用率
+								console.log("CPU使用率：");
+								console.log(cpu_ratio);
+								console.log("内存使用率：");
+								console.log(mem_ratio);
+								
+								//CPU使用率是否超标
+								if(Number(cpu_ratio)>cpu){
+									if(cpu_warntype == 1){
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点CPU使用率超过'+ cpu + '%的警戒值；</p>';
+									}else if(cpu_warntype == 2){
+										alermAudio.play();
+									}else if(cpu_warntype == 3){
+										alermAudio.play();
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点CPU使用率超过'+ cpu + '%的警戒值；</p>';
+									}
+								}
+								
+								//内存使用率是否超标
+								if(Number(mem_ratio)>mem){
+									if(mem_warntype == 1){
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点内存使用率超过'+ mem + '%的警戒值；</p>';
+									}else if(mem_warntype == 2){
+										alermAudio.play();
+									}else if(mem_warntype == 3){
+										alermAudio.play();
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点内存使用率超过'+ mem + '%的警戒值；</p>';
+									}
+								}
+								
+								//判断系统服务状态是否异常
+								var LatestServiceData_status_arr_len = obj.nodes_list[i].latestData.LatestServiceData.length;
+								for(var i = 0; i<LatestServiceData_status_arr_len; i++){
+									if(Number(obj.nodes_list[i].latestData.LatestServiceData[i][4]) != 0){
+										if(service_warntype == 1){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestServiceData[i][2] + '异常；</p>';
+										}else if(service_warntype == 2){
+											alermAudio.play();
+										}else if(service_warntype == 3){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestServiceData[i][2] + '异常；</p>';
+											alermAudio.play();
+										}
+									}
+								}
+								
+								//判断分区状态和判断分区使用率超过设定值时
+								var LatestPartitionData_status_arr_len = obj.nodes_list[i].latestData.LatestPartitionData.length
+								for(var i = 0; i<LatestPartitionData_status_arr_len; i++){
+//										if(Number(obj.nodes_list[i].latestData.LatestPartitionData[i][4]) != 0){
+//											if(partition_warntype == 1){
+//												alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestPartitionData[i][2] + '异常；</p>';															
+//											}else if(partition_warntype == 2){
+//												alermAudio.play();
+//											}else if(partition_warntype == 3){
+//												alermAudio.play();
+//												alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestPartitionData[i][2] + '异常；</p>';	
+//											}
+//										}	
+									
+									if(Number(obj.nodes_list[i].latestData.LatestPartitionData[i][3]) > partitionratio){
+										if(partitionratiotype == 1){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestPartitionData[i][2] + '使用率超过' + partitionratio + '%的警戒值；</p>';															
+										}else if(partitionratiotype == 2){
+											alermAudio.play();
+										}else if(partitionratiotype == 3){
+											alermAudio.play();
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestPartitionData[i][2] + '使用率超过' + partitionratio + '%的警戒值；</p>';	
+										}
+									}	
+								}
+								
+								//判断加密卡状态
+								var LatestEncardData_status_arr_len = obj.nodes_list[i].latestData.LatestEncardData.length//加密卡个数
+								for(var i = 0; i<LatestEncardData_status_arr_len; i++){
+									if(Number(obj.nodes_list[i].latestData.LatestEncardData[i][4]) != 0){
+										if(card_warntype == 1){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestEncardData[i][2] + '异常；</p>';
+										}else if(card_warntype == 2){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestEncardData[i][2] + '异常；</p>';
+										}else if(card_warntype == 3){
+											alermAudio.play();
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestEncardData[i][2] + '异常；</p>';
+										}
+									}
+								}
+								
+								//判断HBA卡状态
+								var LatestHBAData_status_arr_len = obj.nodes_list[i].latestData.LatestHBAData.length//端口个数
+								for(var i = 0; i<LatestHBAData_status_arr_len; i++){
+									if(Number(obj.nodes_list[i].latestData.LatestHBAData[i][4]) != 0){
+										if(hba_warntype == 1){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestHBAData[i][2] + '异常；</p>';															
+										}else if(hba_warntype == 2){
+											alermAudio.play();
+										}else if(hba_warntype == 3){
+											alermAudio.play();
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestHBAData[i][2] + '异常；</p>';
+										}
+									}
+								}
+								
+								//判断网口状态
+								console.log("========当前最新网口信息========");
+								console.log(obj.nodes_list[i].latestData.LatestNetData);
+								var LatestNetData_status_arr_len = obj.nodes_list[i].latestData.LatestNetData.length;
+								for(var i = 0; i<LatestNetData_status_arr_len; i++){
+									if(Number(obj.nodes_list[i].latestData.LatestNetData[i][4]) != 0){
+										if(netport_warntype == 1){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestNetData[i][2] + '异常；</p>';															
+										}else if(netport_warntype == 2){
+											alermAudio.play();
+										}else if(netport_warntype == 3){
+											alermAudio.play();
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestNetData[i][2] + '异常；</p>';
+										}
+									}
+								}
+								
+								//判断系统负载
+								if(Number(obj.nodes_list[i].latestData.LatestSysloadData[0][5]) > Number(loadValue)){
+									if(load_warntype == 1){
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestSysloadData[0][2] + '异常；</p>';															
+									}else if(load_warntype == 2){
+										alermAudio.play();
+									}else if(load_warntype == 3){
+										alermAudio.play();
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestSysloadData[0][2] + '异常；</p>';
+									}
+								}	
+								
+								if(alarmInfo != ""){
+									$("#noAlarmIn10m").prop("checked",false);
+									closeMsgBox();
+									showMsgBox(alarmInfo);
+								}
+								
+							}else if(nodesStatus == "offline"){
+								if(nodeoffline_warntype == 1){
+									alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + '离线；</p>';
+								}else if(nodeoffline_warntype == 2){
+									alermAudio.play();
+								}else if(nodeoffline_warntype == 3){
+									alermAudio.play();
+									alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + '离线；</p>';
+								}
+							}
+						}
+					}else{
+						toastr.error("告警时返回告警设置信息为空！", "警告");
+						console.log("告警时返回告警设置信息为空！");
+					}
+			},//success
+			error: function(msg){
+				toastr.error("系统错误，告警时获取告警设置信息失败！", "警告");
+				console.log("系统错误，告警时获取告警设置信息失败！");
+				console.log(msg);
+			}
+		});
+};//监控系统状态 end
+
+monitor();
+</script>
+</body>
+</html>

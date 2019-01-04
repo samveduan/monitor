@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="zh-cn">
+<head>
+ <title></title>
+ <meta charset="utf-8" />
+ <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+ <!-- 移动设备 viewport -->
+ <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui" />
+ <meta name="author" content="" />
+ <!-- 360浏览器默认使用Webkit内核 -->
+ <meta name="renderer" content="webkit" />
+ <!-- 禁止搜索引擎抓取 -->
+ <meta name="robots" content="nofollow" />
+ <!-- 禁止百度SiteAPP转码 -->
+ <meta http-equiv="Cache-Control" content="no-siteapp" />
+ <!-- Chrome浏览器添加桌面快捷方式（安卓） -->
+ <link rel="icon" type="image/png" href="{{ STATIC_URL }}monitor_samve/images/favicon.png" />
+ <meta name="mobile-web-app-capable" content="yes" />
+ <!-- Safari浏览器添加到主屏幕（IOS） -->
+ <link rel="icon" sizes="192x192" href="{{ STATIC_URL }}monitor_samve/images/apple-touch-icon.png" />
+ <meta name="apple-mobile-web-app-capable" content="yes" />
+ <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+ <meta name="apple-mobile-web-app-title" content="Admui" />
+ <!-- Win8标题栏及ICON图标 -->
+ <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}monitor_samve/images/apple-touch-icon.png" />
+ <meta name="msapplication-TileImage" content="{{ STATIC_URL }}monitor_samve/images/app-icon72x72@2x.png" />
+ <meta name="msapplication-TileColor" content="#62a8ea" />
+ <!-- 样式 -->
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/themes/classic/global/css/bootstrap.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/themes/classic/base/css/site.css" id="admui-siteStyle" />
+ <!--[if lte IE 9]>
+   <!--<meta http-equiv="refresh" content="0; url=''" />-->
+ <!--[endif]---->
+ <!--[if lt IE 10]>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/media-match/media.match.min.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/respond/respond.min.js"></script>
+ <![endif]-->
+ <!-- 图标 CSS-->
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/fonts/font-awesome/font-awesome.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/fonts/web-icons/web-icons.css" />
+ <link rel="stylesheet" href="{{ STATIC_URL }}monitor_samve/vendor/toastr/toastr.css" />
+ <style>
+#nav{box-shadow:0 5px 10px #666;background:linear-gradient(#363636,#000)}
+.blackBackground{background:linear-gradient(#5CD29D,#279566)}
+.msgBox{border:1px solid #d1321d;background:#d1321d;width:300px;height:222px;position:fixed;right:20px;bottom:0;}
+.msgTitle{height:42px;line-height:42px;color:#FFF;padding-left:10px;background:linear-gradient(#d1321d,#d1321d)}
+.msgTitle span:hover{background:#e63f29;color:#ddd}
+.msgMain{padding:15px;height:128px;overflow:auto;}
+.msgMain p{margin:0;padding:0;line-height:24px;color:#ffffff;font-size:12px;}
+.msgBottom{height:22px;line-height:22px;padding-right:10px;color:#ffffff;}
+ </style>
+ <!-- 插件 -->
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/jquery/jquery.min.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/bootstrap/bootstrap.min.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/modernizr/modernizr.min.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/breakpoints/breakpoints.min.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/artTemplate/template.min.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/toastr/toastr.min.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/vendor/bootbox/bootbox.min.js"></script>
+ <!-- 核心  -->
+ <script src="{{ STATIC_URL }}monitor_samve/themes/classic/global/js/core.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/themes/classic/base/js/site.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/themes/classic/global/js/configs/site-configs.js"></script>
+ <script src="{{ STATIC_URL }}monitor_samve/themes/classic/global/js/components.js"></script>
+ <script>
+     Breakpoints();
+ </script>
+</head>
+<body class="site-contabs-open site-menubar-unfold ">
+<nav id="nav" class="site-navbar navbar navbar-default navbar-fixed-top navbar-inverse " role="navigation">
+ <div class="navbar-header">
+<!--   <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided" data-toggle="menubar"> <span class="sr-only">切换菜单</span> <span class="hamburger-bar"></span> </button> -->
+<!--   <button type="button" class="navbar-toggle collapsed" data-target="#admui-navbarCollapse" data-toggle="collapse"> <i class="icon wb-more-horizontal" aria-hidden="true"></i> </button> -->
+  <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu" id="logoName" style="width: 300px;">
+ 
+   <!--  <img class="navbar-brand-logo visible-lg visible-xs navbar-logo" src="{{ STATIC_URL }}monitor_samve/images/qilin.png" title="麒麟天机网络存储机密系统" />
+   <img class="navbar-brand-logo hidden-xs hidden-lg navbar-logo-mini" src="{{ STATIC_URL }}monitor_samve/images/qilin.png" title="麒麟天机网络存储机密系统" />-->
+  </div>
+ </div>
+ <div class="navbar-container container-fluid">
+  <div class="collapse navbar-collapse navbar-collapse-toolbar" id="admui-navbarCollapse">
+   <ul class="nav navbar-toolbar navbar-left">
+    <li class="hidden-float">
+    </li>
+    <li class="navbar-menu nav-tabs-horizontal nav-tabs-animate is-load" id="admui-navMenu" style="margin-left:150px;">
+     <ul class="nav navbar-toolbar nav-tabs" role="tablist">
+      <!-- 顶部菜单 -->
+      <li role="presentation"> <a class="samveActive blackBackground" href="/monitor/monitoring/home/" target="yq-iframe" role="tab" aria-expanded="true"> <i class="icon wb-library"></i> <span>实时信息</span> </a> </li>
+      <li role="presentation">  <a class="samveActive" style="cursor:pointer;" href="/monitor/monitoring/setting/" target="yq-iframe" role="tab" aria-expanded="true"> <i class="icon wb-desktop"></i> <span>告警设置</span> </a> </li>
+      <li role="presentation">  </li>
+      <!-- <li class="dropdown" id="admui-navbarSubMenu"> <a class="dropdown-toggle" data-toggle="dropdown" href="#" data-animation="slide-bottom" aria-expanded="true" role="button"> <i class="icon wb-more-vertical"></i> </a>
+       <ul class="dropdown-menu" role="menu">
+        <li class="no-menu" role="presentation"> <a href="#" target="_blank" role="menuitem" data-target="#index-modal-modify-password" data-toggle="modal"> <i class="icon wb-pencil"></i><span>更多信息</span> </a> </li>
+       </ul> </li> -->
+     </ul> </li>
+   </ul>
+   <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+    <li> <a href="javascript:;" style="cursor:default;background: none;">欢迎kmonitor!</a> </li>
+    <li class="hidden-xs" id="admui-navbarDisplay" data-toggle="tooltip" data-placement="bottom" title="修改密码"> <a class="icon wb-pencil" href="" target="_blank" data-pjax="" role="menuitem" data-target="#index-modal-modify-password" data-toggle="modal">
+     <!--href="/Admui-1.2.0/system/settings/display" --> <span class="sr-only">修改密码</span> </a> </li>
+    <li> <a class="icon fa-sign-out" data-ctx="/Admui-1.2.0" data-user="1" href="/devadm/accounts/logout/" role="button" data-toggle="tooltip" data-placement="bottom" title="退出"> <span class="sr-only">退出</span> </a> </li>
+   </ul>
+  </div>
+ </div>
+</nav>
+<main class="site-page" style="margin-top:0;margin-left: 0;">
+ <iframe frameborder="0" marginwidth="0" class="" style="" width="100%" height="500px" id="yq-iframe" name="yq-iframe" src="/monitor/monitoring/home/"> </iframe>
+</main>
+<footer class="site-footer" style="margin-left:0px;">
+ <div class="site-footer-legal">
+  &copy;
+  <script type="text/javascript">document.write(new Date().getFullYear());</script> <span id="company"></span> 版权所有
+ </div>
+ <div class="site-footer-right">
+  软件发行号：<span id="version"></span>
+ </div>
+</footer>
+
+<!--//model(修改密码) begin-->
+<div class="modal fade modal-rotate-from-bottom in" id="index-modal-modify-password" aria-hidden="true" aria-labelledby="exampleModalTitle" role="dialog" tabindex="-1" style="display: none;">
+ <div class="modal-dialog modal-top">
+  <div class="modal-content">
+   <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="关闭"> <span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">修改密码</h4>
+   </div>
+   <form id="index-modify-password-form" class="form-horizontal" method="post" action="">
+    <div class="modal-body">
+     <!--//form-group begin-->
+     <div class="form-group">
+      <label class="col-sm-3 control-label">旧密码</label>
+      <div class="col-sm-9">
+       <input type="password" class="form-control" id="index-oldPassword" name="oldpwd" placeholder="旧密码" />
+      </div>
+     </div>
+     <!--//form-group end-->
+     <!--//form-group begin-->
+     <div class="form-group">
+      <label class="col-sm-3 control-label">新密码</label>
+      <div class="col-sm-9">
+       <input type="password" class="form-control" id="index-newPassword" name="newpwd" placeholder="新密码" />
+      </div>
+     </div>
+     <div class="form-group">
+      <label class="col-sm-3 control-label">确认密码</label>
+      <div class="col-sm-9">
+       <input type="password" class="form-control" id="index-newPassword2" name="newpwd2" placeholder="确认密码" />
+      </div>
+     </div>
+     <!--//form-group end-->
+    </div>
+     <div class="modal-footer">
+      <button type="button" class="btn btn-default margin-0" id="index-cancel-password" data-dismiss="modal">取消</button>
+      <button type="button" class="btn btn-primary" id="index-modify-password">确认</button>
+     </div>
+   </form>
+  </div>
+ </div>
+</div>
+<!--//model(修改密码) end-->
+
+     <audio id="beep-one" src="{{ STATIC_URL }}monitor_samve/audio/alerm.mp3" preload="auto">
+      Your browser isn't invited for super fun time.
+     </audio>
+  
+<!--//消息盒子 begin-->   
+<div class="msgBox" style="display:none;">
+    <div class="msgTitle"><i class="icon wb-volume-high" aria-hidden="true"></i> 警告<span style="cursor:pointer;" title="点击关闭消息窗口" class="tooltip-success tooltip-scale pull-right padding-left-10 padding-right-10" onclick="closeMsgBox()" data-toggle="tooltip" data-placement="top" data-original-title="点击关闭提示"><i class="icon wb-close" aria-hidden="true"></i></span></div>
+    <div class="msgMain">
+
+    </div>
+	<div class="msgBottom">
+	                <div class="checkbox-custom checkbox-warning pull-right">
+         		 <input type="checkbox" id="noAlarmIn10m" name="noAlarmIn10m" value="10分钟内不再告警" style="cursor:pointer;"/>
+	        <label for="" style="cursor:default;">10分钟内不再告警</label>
+       </div>
+	</div>
+</div><!--//消息盒子 end-->  
+
+<!-- 布局 -->
+<script src="{{ STATIC_URL }}monitor_samve/themes/classic/base/js/sections/menu.js"></script>
+<script src="{{ STATIC_URL }}monitor_samve/themes/classic/base/js/sections/media-menu.js"></script>
+<!-- 插件 -->
+<script src="{{ STATIC_URL }}monitor_samve/vendor/jquery-pjax/jquery.pjax.min.js"></script>
+<script src="{{ STATIC_URL }}monitor_samve/themes/classic/global/js/plugins/responsive-tabs.js"></script>
+<script src="{{ STATIC_URL }}monitor_samve/vendor/ashoverscroll/jquery-asHoverScroll.min.js"></script>
+<script src="{{ STATIC_URL }}monitor_samve/vendor/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="{{ STATIC_URL }}monitor_samve/vendor/screenfull/screenfull.min.js"></script>
+<script src="{{ STATIC_URL }}monitor_samve/js/qilin/public.js"></script>
+<script>
+//判断是否已经部署
+(function() {
+	var deployedStatus = '{{deployedStatus}}';
+// 	console.log("deployedStatus:");
+// 	console.log(deployedStatus);
+	if(deployedStatus == 'no'){
+		alert("系统尚未部署！");
+		location.href = "/devadm/accounts/login/";			
+	}
+})();
+
+//定义一个定时器数组
+var arr = [];
+
+//nav背景切换
+$(".samveActive").click(function(){
+	$(".samveActive").removeClass("blackBackground");
+    $(this).addClass("blackBackground");
+});
+
+//打开消息盒子
+function showMsgBox(data){
+	$(".msgMain").html(data);
+	setTimeout(function(){
+		$(".msgBox").slideDown(1500);
+	}, 1000)
+}
+
+//关闭消息盒子
+function closeMsgBox() {
+    $(".msgBox").slideUp(200); 
+}
+
+var alermAudio = document.getElementById("beep-one");
+    
+//动态显示获取到的版权和版本
+(function(){
+	var company = document.getElementById("company");
+	var version = document.getElementById("version");
+	var logoName = document.getElementById("logoName");
+	$.ajax({
+		type: "POST",
+		url: "/monitor/monitoring/nodes_info/",
+		data: {},
+		dataType: 'json',
+		timeout: 1000 * 60,
+		success: function(obj){
+			if(obj){
+				company.innerHTML = obj.sysinfo.vendor;
+				version.innerHTML = obj.sysinfo.rversion;
+				logoName.innerHTML = obj.sysinfo.product;
+				document.title = obj.sysinfo.product;
+			}else{
+				toastr.error("获取版权和版本号时返回数据为空！", "警告");
+// 				console.log("获取版权和版本号时返回数据为空！");
+			}
+		},
+		error: function(msg){
+			toastr.error("系统错误，无法获取版权和版本号！", "警告");
+// 			console.log("系统错误，无法获取版权和版本号！");
+// 			console.log(msg);
+		}
+	});
+})();
+
+//监控系统状态 begin
+function monitor(){
+// 		console.log("========【监控】模块开始========");
+		$.ajax({
+			type: "POST",
+			url: "/monitor/monitoring/getTableData/",
+			data: {},
+			dataType: 'json',
+			timeout: 1000 * 60,
+			success: function(obj){
+					if(obj){
+						var len = obj.nodes_list.length;
+// 						console.log("集群中节点个数：");
+// 						console.log(len);
+						
+// 						console.log("报警时获取的节点信息：");
+// 						console.log(obj);
+						
+						var alarmInfo = "";
+						
+						//用户报警设置
+						var nodeoffline_warntype = obj.warnSet.nodeoffline_warntype;//告警设置的节点离线时报警方式
+						var cpu = Number(obj.warnSet.cpu);//告警设置的节点cpu使用率阀值
+						var mem = Number(obj.warnSet.mem);//告警设置的节点内存使用率阀值
+						var load_warntype = obj.warnSet.load_warntype;//系统负载超过阀值时
+						var service_warntype = obj.warnSet.service_warntype;//服务状态异常时
+						var partition_warntype = obj.warnSet.partition_warntype;//分区状态异常时
+						var card_warntype = obj.warnSet.card_warntype;//加密卡状态异常时
+						var netport_warntype = obj.warnSet.netport_warntype;//网口状态异常时
+						var hba_warntype = obj.warnSet.hba_warntype;//HBA卡状态异常时报警方式
+						var cpu_warntype = obj.warnSet.cpu_warntype;//CPU使用率超过设定值时报警方式
+						var mem_warntype = obj.warnSet.mem_warntype;//内存使用率超过设定值时报警方式
+						var partitionratio = Number(obj.warnSet.partitionratio);//告警设置的节点分区使用率阀值
+						var partitionratiotype = obj.warnSet.partitionratiotype;//节点分区使用率超过设定值时报警方式
+						var loadValue = obj.warnSet.loadValue;//系统负载
+						
+						for(var i = 0; i<len; i++){
+							var name = obj.nodes_list[i].name;//节点名称
+							var ip = obj.nodes_list[i].ip;//IP
+							var ipForId = "ip" + ip.split(".").join("_");
+							var nodesStatus = obj.nodes_list[i].latestData.nodesStatus;//主从类型及是否在线
+							var type = "";
+							if(nodesStatus == "main"){
+								type = "主";	
+							}else if(nodesStatus == "bak"){
+								type = "从";	
+							}else if(nodesStatus == "unknow"){
+								type = "离线";	
+							}else if(nodesStatus == "offline"){
+								type = "离线";
+							}else{
+								type = "异常";
+							}
+							
+							if(nodesStatus == "main" || nodesStatus == "bak"){
+								
+								var cpu_ratio = Number(obj.nodes_list[i].latestData.LatestCPUData[0][3]);//CPU使用率
+								var mem_ratio = Number(obj.nodes_list[i].latestData.LatestMemData[0][3]);//内存使用率
+// 								console.log("CPU使用率：");
+// 								console.log(cpu_ratio);
+// 								console.log("内存使用率：");
+// 								console.log(mem_ratio);
+								
+								//CPU使用率是否超标
+								if(Number(cpu_ratio)>=cpu){
+									if(cpu_warntype == 1){
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点CPU使用率超过'+ cpu + '%的警戒值；</p>';
+									}else if(cpu_warntype == 2){
+										alermAudio.play();
+									}else if(cpu_warntype == 3){
+										alermAudio.play();
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点CPU使用率超过'+ cpu + '%的警戒值；</p>';
+									}
+								}
+								
+								//内存使用率是否超标
+								if(Number(mem_ratio)>=mem){
+									if(mem_warntype == 1){
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点内存使用率超过'+ mem + '%的警戒值；</p>';
+									}else if(mem_warntype == 2){
+										alermAudio.play();
+									}else if(mem_warntype == 3){
+										alermAudio.play();
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点内存使用率超过'+ mem + '%的警戒值；</p>';
+									}
+								}
+								
+								//判断系统服务状态是否异常
+								var LatestServiceData_status_arr_len = obj.nodes_list[i].latestData.LatestServiceData.length;
+								for(var a = 0; a<LatestServiceData_status_arr_len; a++){
+									if(Number(obj.nodes_list[i].latestData.LatestServiceData[a][4]) != 0){
+										if(service_warntype == 1){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestServiceData[a][2] + '异常；</p>';
+										}else if(service_warntype == 2){
+											alermAudio.play();
+										}else if(service_warntype == 3){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestServiceData[a][2] + '异常；</p>';
+											alermAudio.play();
+										}
+									}
+								}
+								
+								//判断分区状态和判断分区使用率超过设定值时
+								var LatestPartitionData_status_arr_len = obj.nodes_list[i].latestData.LatestPartitionData.length;
+								for(var a = 0; a<LatestPartitionData_status_arr_len; a++){
+//										if(Number(obj.nodes_list[i].latestData.LatestPartitionData[i][4]) != 0){
+//											if(partition_warntype == 1){
+//												alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestPartitionData[i][2] + '异常；</p>';															
+//											}else if(partition_warntype == 2){
+//												alermAudio.play();
+//											}else if(partition_warntype == 3){
+//												alermAudio.play();
+//												alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestPartitionData[i][2] + '异常；</p>';	
+//											}
+//										}	
+									
+									if(Number(obj.nodes_list[i].latestData.LatestPartitionData[a][3]) >= partitionratio){
+										if(partitionratiotype == 1){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestPartitionData[a][2] + '使用率超过' + partitionratio + '%的警戒值；</p>';															
+										}else if(partitionratiotype == 2){
+											alermAudio.play();
+										}else if(partitionratiotype == 3){
+											alermAudio.play();
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestPartitionData[a][2] + '使用率超过' + partitionratio + '%的警戒值；</p>';	
+										}
+									}	
+								}
+								
+								//判断加密卡状态
+								var LatestEncardData_status_arr_len = obj.nodes_list[i].latestData.LatestEncardData.length//加密卡个数
+								for(var a = 0; a<LatestEncardData_status_arr_len; a++){
+									if(Number(obj.nodes_list[i].latestData.LatestEncardData[a][4]) != 0){
+										if(card_warntype == 1){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestEncardData[a][2] + '异常；</p>';
+										}else if(card_warntype == 2){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestEncardData[a][2] + '异常；</p>';
+										}else if(card_warntype == 3){
+											alermAudio.play();
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestEncardData[a][2] + '异常；</p>';
+										}
+									}
+								}
+								
+								//判断HBA卡状态
+								var LatestHBAData_status_arr_len = obj.nodes_list[i].latestData.LatestHBAData.length//端口个数
+								for(var a = 0; a<LatestHBAData_status_arr_len; a++){
+									if(Number(obj.nodes_list[i].latestData.LatestHBAData[a][4]) != 0){
+										if(hba_warntype == 1){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestHBAData[a][2] + '异常；</p>';															
+										}else if(hba_warntype == 2){
+											alermAudio.play();
+										}else if(hba_warntype == 3){
+											alermAudio.play();
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestHBAData[a][2] + '异常；</p>';
+										}
+									}
+								}
+								
+								//判断网口状态
+// 								console.log("========当前最新网口信息========");
+// 								console.log(obj.nodes_list[i].latestData.LatestNetData);
+								var LatestNetData_status_arr_len = obj.nodes_list[i].latestData.LatestNetData.length;
+								for(var a = 0; a<LatestNetData_status_arr_len; a++){
+									if(Number(obj.nodes_list[i].latestData.LatestNetData[a][4]) != 0){
+										if(netport_warntype == 1){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestNetData[a][2] + '异常；</p>';															
+										}else if(netport_warntype == 2){
+											alermAudio.play();
+										}else if(netport_warntype == 3){
+											alermAudio.play();
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestNetData[a][2] + '异常；</p>';
+										}
+									}
+								}
+								
+								//判断系统负载
+								if(Number(obj.nodes_list[i].latestData.LatestSysloadData[0][5]) >= Number(loadValue)){
+									if(load_warntype == 1){
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestSysloadData[0][2] + '异常；</p>';															
+									}else if(load_warntype == 2){
+										alermAudio.play();
+									}else if(load_warntype == 3){
+										alermAudio.play();
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestSysloadData[0][2] + '异常；</p>';
+									}
+								}									
+								
+							}else if(nodesStatus == "unknow"){
+								if(nodeoffline_warntype == 1){
+									alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + '脱离集群；</p>';
+								}else if(nodeoffline_warntype == 2){
+									alermAudio.play();
+								}else if(nodeoffline_warntype == 3){
+									alermAudio.play();
+									alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + '脱离集群；</p>';
+								}
+								
+								var cpu_ratio = Number(obj.nodes_list[i].latestData.LatestCPUData[0][3]);//CPU使用率
+								var mem_ratio = Number(obj.nodes_list[i].latestData.LatestMemData[0][3]);//内存使用率
+// 								console.log("CPU使用率：");
+// 								console.log(cpu_ratio);
+// 								console.log("内存使用率：");
+// 								console.log(mem_ratio);
+								
+								//CPU使用率是否超标
+								if(Number(cpu_ratio)>=cpu){
+									if(cpu_warntype == 1){
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点CPU使用率超过'+ cpu + '%的警戒值；</p>';
+									}else if(cpu_warntype == 2){
+										alermAudio.play();
+									}else if(cpu_warntype == 3){
+										alermAudio.play();
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点CPU使用率超过'+ cpu + '%的警戒值；</p>';
+									}
+								}
+								
+								//内存使用率是否超标
+								if(Number(mem_ratio)>=mem){
+									if(mem_warntype == 1){
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点内存使用率超过'+ mem + '%的警戒值；</p>';
+									}else if(mem_warntype == 2){
+										alermAudio.play();
+									}else if(mem_warntype == 3){
+										alermAudio.play();
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点内存使用率超过'+ mem + '%的警戒值；</p>';
+									}
+								}
+								
+								//判断系统服务状态是否异常
+								var LatestServiceData_status_arr_len = obj.nodes_list[i].latestData.LatestServiceData.length;
+								for(var a = 0; a<LatestServiceData_status_arr_len; a++){
+									if(Number(obj.nodes_list[i].latestData.LatestServiceData[a][4]) != 0){
+										if(service_warntype == 1){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestServiceData[a][2] + '异常；</p>';
+										}else if(service_warntype == 2){
+											alermAudio.play();
+										}else if(service_warntype == 3){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestServiceData[a][2] + '异常；</p>';
+											alermAudio.play();
+										}
+									}
+								}
+								
+								//判断分区状态和判断分区使用率超过设定值时
+								var LatestPartitionData_status_arr_len = obj.nodes_list[i].latestData.LatestPartitionData.length;
+								for(var a = 0; a<LatestPartitionData_status_arr_len; a++){
+//										if(Number(obj.nodes_list[i].latestData.LatestPartitionData[i][4]) != 0){
+//											if(partition_warntype == 1){
+//												alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestPartitionData[i][2] + '异常；</p>';															
+//											}else if(partition_warntype == 2){
+//												alermAudio.play();
+//											}else if(partition_warntype == 3){
+//												alermAudio.play();
+//												alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestPartitionData[i][2] + '异常；</p>';	
+//											}
+//										}	
+									
+									
+									
+									if(Number(obj.nodes_list[i].latestData.LatestPartitionData[a][3]) >= partitionratio){
+										if(partitionratiotype == 1){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestPartitionData[a][2] + '使用率超过' + partitionratio + '%的警戒值；</p>';															
+										}else if(partitionratiotype == 2){
+											alermAudio.play();
+										}else if(partitionratiotype == 3){
+											alermAudio.play();
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestPartitionData[a][2] + '使用率超过' + partitionratio + '%的警戒值；</p>';	
+										}
+									}	
+								}
+								
+								//判断加密卡状态
+								var LatestEncardData_status_arr_len = obj.nodes_list[i].latestData.LatestEncardData.length//加密卡个数
+								for(var a = 0; a<LatestEncardData_status_arr_len; a++){
+									if(Number(obj.nodes_list[i].latestData.LatestEncardData[a][4]) != 0){
+										if(card_warntype == 1){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestEncardData[a][2] + '异常；</p>';
+										}else if(card_warntype == 2){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestEncardData[a][2] + '异常；</p>';
+										}else if(card_warntype == 3){
+											alermAudio.play();
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestEncardData[a][2] + '异常；</p>';
+										}
+									}
+								}
+								
+								//判断HBA卡状态
+								var LatestHBAData_status_arr_len = obj.nodes_list[i].latestData.LatestHBAData.length//端口个数
+								for(var a = 0; a<LatestHBAData_status_arr_len; a++){
+									if(Number(obj.nodes_list[i].latestData.LatestHBAData[a][4]) != 0){
+										if(hba_warntype == 1){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestHBAData[a][2] + '异常；</p>';															
+										}else if(hba_warntype == 2){
+											alermAudio.play();
+										}else if(hba_warntype == 3){
+											alermAudio.play();
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestHBAData[a][2] + '异常；</p>';
+										}
+									}
+								}
+								
+								//判断网口状态
+// 								console.log("========当前最新网口信息========");
+// 								console.log(obj.nodes_list[i].latestData.LatestNetData);
+								var LatestNetData_status_arr_len = obj.nodes_list[i].latestData.LatestNetData.length;
+								for(var a = 0; a<LatestNetData_status_arr_len; a++){
+									if(Number(obj.nodes_list[i].latestData.LatestNetData[a][4]) != 0){
+										if(netport_warntype == 1){
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestNetData[a][2] + '异常；</p>';															
+										}else if(netport_warntype == 2){
+											alermAudio.play();
+										}else if(netport_warntype == 3){
+											alermAudio.play();
+											alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestNetData[a][2] + '异常；</p>';
+										}
+									}
+								}
+								
+								//判断系统负载
+								if(Number(obj.nodes_list[i].latestData.LatestSysloadData[0][5]) >= Number(loadValue)){
+									if(load_warntype == 1){
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestSysloadData[0][2] + '异常；</p>';															
+									}else if(load_warntype == 2){
+										alermAudio.play();
+									}else if(load_warntype == 3){
+										alermAudio.play();
+										alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + obj.nodes_list[i].latestData.LatestSysloadData[0][2] + '异常；</p>';
+									}
+								}	
+								
+							}else if(nodesStatus == "offline"){
+								if(nodeoffline_warntype == 1){
+									alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + '离线；</p>';
+								}else if(nodeoffline_warntype == 2){
+									alermAudio.play();
+								}else if(nodeoffline_warntype == 3){
+									alermAudio.play();
+									alarmInfo += '<p><i class="icon wb-chevron-right-mini" aria-hidden="true"></i>' + name + '节点' + '离线；</p>';
+								}
+							}
+							
+							if(alarmInfo != ""){
+								$("#noAlarmIn10m").prop("checked",false);
+								closeMsgBox();
+								showMsgBox(alarmInfo);
+							}
+						}
+					}else{
+						toastr.error("告警时返回告警设置信息为空！", "警告");
+// 						console.log("告警时返回告警设置信息为空！");
+					}
+			},//success
+			error: function(msg){
+				toastr.error("系统错误，告警时获取告警设置信息失败！", "警告");
+// 				console.log("系统错误，告警时获取告警设置信息失败！");
+// 				console.log(msg);
+			}
+		});
+};//监控系统状态 end
+
+monitor();
+
+arr[0] = setInterval(function(){
+	monitor();
+}, 1000*20);
+
+/**
+ * 点击10分钟不再报警按钮后
+ */
+$("#noAlarmIn10m").click(function(){
+	clearInterval(arr[0]);
+	if($(this).is(':checked')){
+		clearInterval(arr[0]);
+		setTimeout(function(){
+			monitor();
+			arr[0] = setInterval(function(){
+				monitor();
+			}, 1000*20);
+		}, 1000*600);
+	}else{
+		clearInterval(arr[0]);
+		monitor();
+		arr[0] = setInterval(function(){
+			monitor();
+		}, 1000*20);
+	}
+})
+
+toastr.options = {
+    closeButton: true,
+    debug: false,
+    progressBar: true,
+    positionClass: "toast-top-right",
+    onclick: null,
+    showDuration: "30000",
+    hideDuration: "10000",
+    timeOut: "6000",
+    extendedTimeOut: "1000",
+    showEasing: "swing",
+    hideEasing: "linear",
+    showMethod: "fadeIn",
+    hideMethod: "fadeOut"
+};
+//常规消息提示，默认背景为浅蓝色
+//toastr.info("你有新消息了!");
+
+//成功消息提示，默认背景为浅绿色
+//toastr.success("你有新消息了!");
+
+//警告消息提示，默认背景为橘黄色
+//toastr.warning("你有新消息了!");
+
+//错误消息提示，默认背景为浅红色
+//toastr.error("系统错误，请稍后重试！", "Error");
+
+//带标题的消息框
+//toastr.success("你有新消息了!","消息提示");
+
+//另一种调用方法
+//toastr["info"]("你有新消息了!","消息提示");
+
+/**
+ * 功能：修改密码
+ */
+$("#index-cancel-password").click(function(){
+	$("#index-oldPassword").val("");
+	$("#index-newPassword").val("");
+	$("#index-newPassword2").val("");
+});
+
+ $("#index-modify-password").click(function(){
+ 	var oldPassword = $.trim($("#index-oldPassword").val());
+ 	var newPassword = $.trim($("#index-newPassword").val());
+ 	var newPassword2 = $.trim($("#index-newPassword2").val());
+	
+ 	if(oldPassword == ""){
+ 		toastr.error("请输入旧密码！", "警告");
+ 		$("#index-oldPassword").focus();
+ 		return false;
+ 	};
+	
+ 	if(newPassword.length < 8){
+ 		toastr.error("请输入至少8位新密码！", "警告");
+ 		$("#index-newPassword").focus();
+ 		return false;
+ 	};
+	
+ 	if(newPassword2 == ""){
+ 		toastr.error("请确认新密码！", "警告");
+ 		$("#index-newPassword2").focus();
+ 		return false;
+ 	};
+
+ 	if(newPassword != newPassword2){
+ 		toastr.error("两次输入的新密码不一致", "警告");
+ 		return false;
+ 	};	
+	
+ 	$.ajax({
+ 		type: "POST",
+ 		url: "/home/chgpwd/",
+ 		data: {'oldpwd':oldPassword,'newpwd':newPassword,'newpwd2':newPassword2},
+ 		dataType: 'json',
+ 		timeout: 1000 * 60,
+ 		success: function(obj){
+ 			if(obj.ret){
+ 				toastr.success("修改密码成功!");
+ 				$("#index-oldPassword").val("");
+ 				$("#index-newPassword").val("");
+ 				$("#index-newPassword2").val("");
+ 				$("#index-modal-modify-password").modal("hide");
+ 			}else{
+				toastr.error("修改密码失败，" + obj.errMsg, "警告");
+// 				console.log("修改密码失败，错误代码：" + obj.errMsg);
+ 			}
+ 		},
+ 		error: function(msg){
+ 			toastr.error("系统错误，修改密码失败！", "警告");
+// 			console.log("系统错误，修改密码失败");
+//  		console.log(msg);
+ 		}
+ 	});
+ });
+</script>
+</body>
+</html>
